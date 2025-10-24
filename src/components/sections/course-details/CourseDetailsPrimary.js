@@ -6,6 +6,7 @@ import { useUserContext } from "@/contexts/UserContext";
 import CurriculumContentRestricted from "@/components/shared/course-details/CurriculamContentRestricted";
 import { FiClock, FiAward, FiUser, FiCalendar, FiCheckCircle, FiPlay, FiBookOpen, FiBarChart2 } from 'react-icons/fi';
 import { motion } from 'framer-motion';
+//hiiii
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
