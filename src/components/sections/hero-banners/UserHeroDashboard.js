@@ -21,7 +21,7 @@ const UserHeroNavbar = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/getuser_details/${user.userId}`
+          `https://readgro-backend-new.onrender.com/getuser_details/${user.userId}`
         );
         const data = await response.json();
         if (data?.user?.avatar) {
@@ -44,7 +44,7 @@ const UserHeroNavbar = () => {
   const handleLogout = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/userlogout",
+        "https://readgro-backend-new.onrender.com/userlogout",
         {
           method: "POST",
           credentials: "include",

@@ -12,7 +12,7 @@ const AdminCreditedPayments = () => {
     const fetchPayments = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/payments"
+          "https://readgro-backend-new.onrender.com/payments"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch payments");

@@ -5,7 +5,7 @@ const validateAdminToken = async () => {
     if (!token) return { isValid: false, admin: null };
 
     const response = await fetch(
-      "http://localhost:5000/auth/validate",
+      "https://readgro-backend-new.onrender.com/auth/validate",
       {
         method: "GET",
         headers: {

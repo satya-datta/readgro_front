@@ -15,7 +15,7 @@ const WithDrawlRequest = ({ userId }) => {
     const fetchWithdrawRequests = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/getwithdrawlrequests/${userId}`
+          `https://readgro-backend-new.onrender.com/getwithdrawlrequests/${userId}`
         );
         if (!response.ok)
           throw new Error("Failed to fetch withdrawal requests");
@@ -44,7 +44,7 @@ const WithDrawlRequest = ({ userId }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/send-otp",
+        "https://readgro-backend-new.onrender.com/send-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -67,7 +67,7 @@ const WithDrawlRequest = ({ userId }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/process-payout",
+        "https://readgro-backend-new.onrender.com/process-payout",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -104,7 +104,7 @@ const WithDrawlRequest = ({ userId }) => {
   const handleViewBankDetails = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/getuser_bank_details/${userId}`,
+        `https://readgro-backend-new.onrender.com/getuser_bank_details/${userId}`,
         {
           method: "GET",
           credentials: "include",

@@ -19,7 +19,7 @@ const GenerateCertificate = () => {
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/getspecific_course/${courseId}`);
+        const response = await axios.get(`https://readgro-backend-new.onrender.com/getspecific_course/${courseId}`);
         if (response.success) {
           setCourseName(response.course.name);
         }
@@ -47,7 +47,7 @@ const GenerateCertificate = () => {
       
       const endDate = calculateEndDate(startDate, months);
       
-      const response = await axios.post('http://localhost:5000/certificateRequest', {
+      const response = await axios.post('https://readgro-backend-new.onrender.com/certificateRequest', {
         userId: user.userId,
         courseId,
         courseName,

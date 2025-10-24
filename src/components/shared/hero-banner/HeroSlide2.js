@@ -12,7 +12,7 @@ const HeroSlide2 = ({ slide, idx }) => {
     const fetchImages = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/getwebsite_hero"
+          "https://readgro-backend-new.onrender.com/getwebsite_hero"
         );
         if (response.ok) {
           const data = await response.json();

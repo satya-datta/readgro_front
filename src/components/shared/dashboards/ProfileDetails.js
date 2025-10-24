@@ -24,7 +24,7 @@ const ProfileDetails = () => {
   const fetchUserData = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/getuser_details/${userId}`,
+        `https://readgro-backend-new.onrender.com/getuser_details/${userId}`,
         {
           method: "GET",
           credentials: "include",
@@ -61,7 +61,7 @@ const ProfileDetails = () => {
   const fetchSponsorDetails = async (reffercode) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/getsponseordetails/${reffercode}`,
+        `https://readgro-backend-new.onrender.com/getsponseordetails/${reffercode}`,
         {
           method: "GET",
           credentials: "include",
@@ -137,7 +137,7 @@ const ProfileDetails = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/update_user/${user?.userId}`,
+        `https://readgro-backend-new.onrender.com/update_user/${user?.userId}`,
         {
           method: "PUT",
           body: formData,

@@ -19,7 +19,7 @@ const ContactForm = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:5000/sendcontact",
+        "https://readgro-backend-new.onrender.com/sendcontact",
         {
           method: "POST",
           headers: {

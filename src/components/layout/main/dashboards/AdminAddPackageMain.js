@@ -17,7 +17,7 @@ const AdminAddPackageMain = () => {
     const fetchCourses = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/getallcourses"
+          "https://readgro-backend-new.onrender.com/getallcourses"
         );
         const data = await response.json();
         if (response.ok) {
@@ -87,7 +87,7 @@ const AdminAddPackageMain = () => {
       });
 
       const response = await fetch(
-        "http://localhost:5000/create-package_withcourses",
+        "https://readgro-backend-new.onrender.com/create-package_withcourses",
         {
           method: "POST",
           body: formData,

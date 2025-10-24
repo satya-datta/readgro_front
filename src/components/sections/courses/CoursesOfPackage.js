@@ -12,7 +12,7 @@ const CoursesOfPackage = ({ id }) => {
 
   // Fetch course IDs mapped to the package
   useEffect(() => {
-    fetch(`http://localhost:5000/getcoursemappings/${id}`)
+    fetch(`https://readgro-backend-new.onrender.com/getcoursemappings/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -33,7 +33,7 @@ const CoursesOfPackage = ({ id }) => {
 
     console.log("Course IDs being sent to the API:", courseIds);
 
-    fetch("http://localhost:5000/getcoursedetails", {
+    fetch("https://readgro-backend-new.onrender.com/getcoursedetails", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

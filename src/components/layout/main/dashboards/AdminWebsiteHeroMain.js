@@ -36,7 +36,7 @@ const AdminWebsiteHeroMain = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/website_hero",
+        "https://readgro-backend-new.onrender.com/website_hero",
         {
           method: "PUT",
           body: formData,

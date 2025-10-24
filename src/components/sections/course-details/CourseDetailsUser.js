@@ -9,7 +9,7 @@ const CourseDetailsUser = ({ id, type }) => {
 
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/getspecific_course/${id}`)
+      fetch(`https://readgro-backend-new.onrender.com/getspecific_course/${id}`)
         .then((res) => res.json())
         .then((data) => {
           if (data) {

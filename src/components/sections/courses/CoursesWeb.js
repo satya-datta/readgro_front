@@ -24,7 +24,7 @@ const CoursesWeb = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/getallcourses")
+    fetch("https://readgro-backend-new.onrender.com/getallcourses")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.courses)) {
@@ -45,7 +45,7 @@ const CoursesWeb = () => {
   }, []);
 
   const fetchTopicsCount = (courseId) => {
-    fetch(`http://localhost:5000/gettopics/${courseId}`)
+    fetch(`https://readgro-backend-new.onrender.com/gettopics/${courseId}`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.topics)) {

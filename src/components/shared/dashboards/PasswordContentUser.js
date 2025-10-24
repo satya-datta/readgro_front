@@ -23,7 +23,7 @@ const PasswordContentUser = () => {
     try {
       // Step 1: Validate old password
       const validateRes = await fetch(
-        "http://localhost:5000/validate-password",
+        "https://readgro-backend-new.onrender.com/validate-password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -55,7 +55,7 @@ const PasswordContentUser = () => {
 
       // Step 3: Update new password
       const updateRes = await fetch(
-        `http://localhost:5000/updatepassword/${user.userId}`,
+        `https://readgro-backend-new.onrender.com/updatepassword/${user.userId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

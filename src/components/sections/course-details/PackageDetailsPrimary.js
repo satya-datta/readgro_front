@@ -14,7 +14,7 @@ const PackageDetailsPrimary = ({ type, id }) => {
   useEffect(() => {
     if (!id) return;
 
-    fetch(`http://localhost:5000/getpackage/${id}`)
+    fetch(`https://readgro-backend-new.onrender.com/getpackage/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data) {

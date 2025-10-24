@@ -12,7 +12,7 @@ const EnrolledContent = ({ course_ids = [] }) => {
   useEffect(() => {
     if (!Array.isArray(course_ids) || course_ids.length === 0) return;
 
-    fetch("http://localhost:5000/getcoursedetails", {
+    fetch("https://readgro-backend-new.onrender.com/getcoursedetails", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

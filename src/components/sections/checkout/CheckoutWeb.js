@@ -56,7 +56,7 @@ const CheckoutWeb = ({ coursename }) => {
   useEffect(() => {
     if (coursename) {
       fetch(
-        `http://localhost:5000/getcoursebyname/${encodeURIComponent(coursename)}`
+        `https://readgro-backend-new.onrender.com/getcoursebyname/${encodeURIComponent(coursename)}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -68,7 +68,7 @@ const CheckoutWeb = ({ coursename }) => {
           console.error("Error fetching course:", err);
           // If there's an error, try to fetch the course by ID
           if (coursename.match(/^[0-9a-fA-F]{24}$/)) { // Check if it's a MongoDB ID
-            fetch(`http://localhost:5000/getcourse/${coursename}`)
+            fetch(`https://readgro-backend-new.onrender.com/getcourse/${coursename}`)
               .then(res => res.json())
               .then(data => {
                 console.log("Course data (by ID):", data);
@@ -88,7 +88,7 @@ const CheckoutWeb = ({ coursename }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/validate_refferalcode",
+        "https://readgro-backend-new.onrender.com/validate_refferalcode",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -152,7 +152,7 @@ const CheckoutWeb = ({ coursename }) => {
     try {
       // Step 1: Validate user
       const validateResponse = await fetch(
-        "http://localhost:5000/validate_user",
+        "https://readgro-backend-new.onrender.com/validate_user",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -195,7 +195,7 @@ const CheckoutWeb = ({ coursename }) => {
 
       // Step 3: Register the User
       const registerResponse = await fetch(
-        "http://localhost:5000/create-user",
+        "https://readgro-backend-new.onrender.com/create-user",
         {
           method: "POST",
           credentials: "include",

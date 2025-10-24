@@ -167,7 +167,7 @@ const CounterStudent = () => {
       if (!user?.userId) return;
 
       try {
-        const earningsRes = await axios.get(`http://localhost:5000/earnings/${user.userId}`);
+        const earningsRes = await axios.get(`https://readgro-backend-new.onrender.com/earnings/${user.userId}`);
         const earningsData = earningsRes.data;
         
         setEarnings(earningsData);
@@ -240,7 +240,7 @@ const CounterStudent = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/getuser_details/${user.userId}`
+          `https://readgro-backend-new.onrender.com/getuser_details/${user.userId}`
         );
         const data = await response.json();
         if (data?.user?.avatar) {
@@ -253,7 +253,7 @@ const CounterStudent = () => {
         // Fetch package details
         if (user?.package_id) {
           fetch(
-            `http://localhost:5000/getpackage/${user.package_id}`
+            `https://readgro-backend-new.onrender.com/getpackage/${user.package_id}`
           )
             .then((res) => res.json())
             .then((packageData) => {

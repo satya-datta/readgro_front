@@ -25,7 +25,7 @@ const UserLoginForm = () => {
     setError(null);
     try {
       const response = await fetch(
-        "http://localhost:5000/userauth",
+        "https://readgro-backend-new.onrender.com/userauth",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -56,7 +56,7 @@ const UserLoginForm = () => {
     setError(null);
     try {
       const response = await fetch(
-        "http://localhost:5000/send-userlogin-otp",
+        "https://readgro-backend-new.onrender.com/send-userlogin-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -83,7 +83,7 @@ const UserLoginForm = () => {
     setError(null);
     try {
       const response = await fetch(
-        "http://localhost:5000/verifyuser-otp",
+        "https://readgro-backend-new.onrender.com/verifyuser-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -130,7 +130,7 @@ const UserLoginForm = () => {
     try {
       // Step 1: Get user ID
       const userRes = await fetch(
-        `http://localhost:5000/getuserbyemail/${email}`
+        `https://readgro-backend-new.onrender.com/getuserbyemail/${email}`
       );
       const user = await userRes.json();
       console.log(user);
@@ -140,7 +140,7 @@ const UserLoginForm = () => {
 
       // Step 2: Update password
       const updateRes = await fetch(
-        `http://localhost:5000/updatepassword/${user.user.userId}`,
+        `https://readgro-backend-new.onrender.com/updatepassword/${user.user.userId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

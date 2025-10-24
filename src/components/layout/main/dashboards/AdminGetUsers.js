@@ -10,7 +10,7 @@ function AdminGetUsers() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/getallusers")
+      .get("https://readgro-backend-new.onrender.com/getallusers")
       .then((response) => {
         setUsers(response.data.users);
       })

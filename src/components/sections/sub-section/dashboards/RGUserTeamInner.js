@@ -15,7 +15,7 @@ const RGUserTeamInner = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/getteam/${user.userId}`,
+        `https://readgro-backend-new.onrender.com/getteam/${user.userId}`,
         {
           method: "GET",
           credentials: "include",

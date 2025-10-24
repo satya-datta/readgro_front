@@ -18,7 +18,7 @@ const PasswordContent = () => {
     const fetchAdminDetails = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/getadmindetails"
+          "https://readgro-backend-new.onrender.com/getadmindetails"
         );
         const data = await response.json();
         setEmail(data.email || "");
@@ -36,7 +36,7 @@ const PasswordContent = () => {
     setSuccess("");
     try {
       const response = await fetch(
-        "http://localhost:5000/admin-cred-send-otp",
+        "https://readgro-backend-new.onrender.com/admin-cred-send-otp",
         {
           method: "POST",
           headers: {
@@ -77,7 +77,7 @@ const PasswordContent = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/update-admin",
+        "https://readgro-backend-new.onrender.com/update-admin",
         {
           method: "POST",
           headers: {

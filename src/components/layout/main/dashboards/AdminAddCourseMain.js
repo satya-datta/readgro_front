@@ -91,7 +91,7 @@ const AdminAddCourseMain = () => {
       }
 
       const courseResponse = await fetch(
-        "http://localhost:5000/create-course",
+        "https://readgro-backend-new.onrender.com/create-course",
         {
           method: "POST",
           body: formData,
@@ -115,7 +115,7 @@ const AdminAddCourseMain = () => {
         };
 
         const topicResponse = await fetch(
-          "http://localhost:5000/create-topic",
+          "https://readgro-backend-new.onrender.com/create-topic",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

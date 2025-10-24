@@ -23,7 +23,7 @@ const UserAffiliateForm = () => {
   const fetchReferralCode = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/getuser_details/${userId}`,
+        `https://readgro-backend-new.onrender.com/getuser_details/${userId}`,
         {
           method: "GET",
           credentials: "include",
@@ -48,7 +48,7 @@ const UserAffiliateForm = () => {
 
   const loadCourses = async () => {
     try {
-      const res = await fetch("http://localhost:5000/getallcourses");
+      const res = await fetch("https://readgro-backend-new.onrender.com/getallcourses");
       const data = await res.json();
       console.log(data);
       if (Array.isArray(data?.courses)) setCourses(data.courses);

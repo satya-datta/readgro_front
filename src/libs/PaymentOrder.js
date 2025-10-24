@@ -2,7 +2,7 @@ export const createOrder = async (priceDifference) => {
   try {
     console.log(priceDifference);
     const response = await fetch(
-      "http://localhost:5000/create-order",
+      "https://readgro-backend-new.onrender.com/create-order",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -27,7 +27,7 @@ export const createOrder = async (priceDifference) => {
 };
 export const validatePayment = async (paymentData) => {
   const response = await fetch(
-    "http://localhost:5000/order/validate",
+    "https://readgro-backend-new.onrender.com/order/validate",
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

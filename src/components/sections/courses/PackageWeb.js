@@ -9,7 +9,7 @@ const PackageWeb = () => {
   const [courseCounts, setCourseCounts] = useState({});
   const router = useRouter();
   useEffect(() => {
-    fetch("http://localhost:5000/getallpackages")
+    fetch("https://readgro-backend-new.onrender.com/getallpackages")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -29,7 +29,7 @@ const PackageWeb = () => {
   }, []);
 
   const fetchCourseCount = (packageId) => {
-    fetch(`http://localhost:5000/getcoursemappings/${packageId}`)
+    fetch(`https://readgro-backend-new.onrender.com/getcoursemappings/${packageId}`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {

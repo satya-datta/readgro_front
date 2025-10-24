@@ -25,7 +25,7 @@ const UserKycForm = () => {
   const fetchUserBankData = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/getuser_bank_details/${userId}`,
+        `https://readgro-backend-new.onrender.com/getuser_bank_details/${userId}`,
         {
           method: "GET",
           credentials: "include",
@@ -101,8 +101,8 @@ const UserKycForm = () => {
     if (!validateForm()) return;
 
     const url = isNewUser
-      ? `http://localhost:5000/insert_bank_detials`
-      : `http://localhost:5000/updateuser_bank_details/${user?.userId}`;
+      ? `https://readgro-backend-new.onrender.com/insert_bank_detials`
+      : `https://readgro-backend-new.onrender.com/updateuser_bank_details/${user?.userId}`;
 
     const method = isNewUser ? "POST" : "PUT";
 
