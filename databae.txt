@@ -1,0 +1,15 @@
+CREATE TABLE user_course_status (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    course_id INT NOT NULL,
+    course_status ENUM('ACTIVE', 'COMPLETED', 'PENDING', 'IN_PROGRESS') NOT NULL DEFAULT 'PENDING',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    -- Foreign Key Constraints
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_course FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+
+    -- Indexes for faster queries
+    INDEX idx_user (user_id),
+    INDEX idx_course (course_id)
+);
