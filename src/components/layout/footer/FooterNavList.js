@@ -11,7 +11,6 @@ const FooterNavList = () => {
       items: [
         { name: "About Us", path: "/about" },
         { name: "Courses", path: "/courses" },
-        { name: "Select Plan & Register", path: "/packages" },
         { name: "User Login", path: "/user/login" },
         { name: "Contact Us", path: "/contact" },
       ],
