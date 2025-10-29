@@ -209,7 +209,7 @@ const CheckoutWeb = ({ coursename }) => {
 
       const registerResult = await registerResponse.json();
       if (registerResult.success) {
-        router.push("/user/user-dashboard");
+        router.push("/user/user-enrolled-courses");
       } else {
         setErrors((prevErrors) => ({
           ...prevErrors,

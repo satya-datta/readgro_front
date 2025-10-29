@@ -176,7 +176,7 @@ const UserLoginForm = () => {
     if (redirecting) {
       setTimeout(() => {
         if (loginMethod === "password") {
-          window.location.href = "/user/user-dashboard";
+          window.location.href = "/user/user-enrolled-courses";
         } else if (loginMethod === "otp") {
           window.location.href = "/user/settings";
         }
