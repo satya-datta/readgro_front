@@ -54,7 +54,7 @@ const AdminAddCourseMain = () => {
     if (discount_price && isNaN(Number(discount_price))) {
       newErrors.discount_price = "Discount must be a number.";
     }
-    if (commission && (isNaN(Number(commission)) || Number(commission) < 0 || Number(commission) > 100)) {
+    if (commission && (isNaN(Number(commission)) || Number(commission) < 0 )) {
       newErrors.commission = "Commission must be 0-100.";
     }
 

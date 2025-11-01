@@ -259,11 +259,11 @@ const CourseDetailsPrimary = ({ id, type }) => {
         
         const data = await response.json();
         
-        if (!data) {
+        if (!data || !data.course) {
           throw new Error('No course data received');
         }
         
-        setCourse(data);
+        setCourse(data.course);
       } catch (error) {
         console.error('Failed to load course:', error);
         setError(error.message || 'Failed to load course details');
