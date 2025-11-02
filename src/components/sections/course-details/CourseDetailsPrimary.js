@@ -223,22 +223,73 @@ const CourseDetailsPrimary = ({ id, type }) => {
     }
   };
 
-  // Handle scroll for sticky sidebar
+  // Make sidebar sticky with fixed position on right side
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 100) {
-        setIsSticky(true);
+    if (!stickyRef.current) return;
+    
+    const updatePosition = () => {
+      const heroSection = document.querySelector('.course-hero-section');
+      const mainContent = document.querySelector('.course-main-content');
+      const footer = document.querySelector('footer');
+      
+      if (!heroSection || !mainContent || !footer) return;
+      
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+      const mainBottom = mainContent.offsetTop + mainContent.offsetHeight;
+      const footerTop = footer.offsetTop;
+      
+      if (scrollPosition >= heroBottom) {
+        const card = stickyRef.current;
+        const cardHeight = card.offsetHeight;
+        const maxBottom = footerTop - 40; // 40px above footer
+        const cardBottom = scrollPosition + cardHeight;
+        
+        if (cardBottom >= maxBottom) {
+          card.style.position = 'absolute';
+          card.style.bottom = `${window.innerHeight - (scrollPosition - maxBottom + cardHeight)}px`;
+          card.style.top = 'auto';
+        } else {
+          card.style.position = 'fixed';
+          card.style.top = '100px'; // 100px from top of viewport
+          card.style.bottom = 'auto';
+        }
+        
+        // Calculate right position based on container
+        const container = card.parentElement;
+        const containerRect = container.getBoundingClientRect();
+        const rightPosition = window.innerWidth - (containerRect.left + containerRect.width);
+        card.style.right = `${Math.max(20, rightPosition)}px`; // At least 20px from right
+        
+        card.style.width = `${containerRect.width}px`;
+        card.style.transition = 'all 0.2s ease-out';
       } else {
-        setIsSticky(false);
+        stickyRef.current.style.position = 'static';
       }
     };
-
-    // Add scroll event listener
-    window.addEventListener('scroll', handleScroll);
     
-    // Cleanup function
+    // Initial position
+    updatePosition();
+    
+    // Add event listeners
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updatePosition();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', updatePosition);
+    
+    // Cleanup
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', updatePosition);
     };
   }, []);
 
@@ -393,7 +444,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
 
       {/* Rest of the component remains the same */}
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+      <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white course-hero-section">
         <div className="absolute inset-0 overflow-hidden">
           <img 
             src={course?.image || '/images/course-bg.jpg'} 
@@ -469,9 +520,9 @@ const CourseDetailsPrimary = ({ id, type }) => {
 
       {/* Rest of the component remains unchanged */}
       <div className="container mx-auto px-4 py-12 lg:py-16">
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-8 relative">
           {/* Main Content */}
-          <div className="lg:w-2/3">
+          <div className="lg:w-2/3 course-main-content">
             {/* Course Tabs */}
             <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-8">
               <div className="border-b border-gray-200">
@@ -564,14 +615,14 @@ const CourseDetailsPrimary = ({ id, type }) => {
             </div>
           </div>
           
-          {/* Sidebar */}
+          {/* Sidebar - Right Side */}
           <div className="lg:w-1/3">
             <div 
               ref={stickyRef}
-              className={`bg-white rounded-xl shadow-sm overflow-hidden ${isSticky ? 'lg:fixed lg:w-[calc(33.333333%_-_1.5rem)] lg:top-6' : ''}`}
+              className="bg-white rounded-xl shadow-lg overflow-hidden z-10"
             >
-              <div className="p-6 border-b border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Course Details</h3>
+              <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Course Details</h3>
                 
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
@@ -606,8 +657,8 @@ const CourseDetailsPrimary = ({ id, type }) => {
                 </div>
               </div>
               
-              <div className="p-6">
-                <h4 className="font-semibold text-gray-900 mb-3">Price</h4>
+              <div className="p-6 bg-gray-50">
+                <h4 className="font-semibold text-gray-900 mb-3 text-lg">Price</h4>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Original Price:</span>
@@ -638,7 +689,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                   </div>
                 </div>
                 
-                <div className="mt-6 pt-6 border-t border-gray-200">
+                <div className="mt-6 pt-6 border-t border-gray-100">
                   <h4 className="font-semibold text-gray-900 mb-3">What's Included</h4>
                   <ul className="space-y-3">
                     <li className="flex items-center gap-2 text-gray-600">
