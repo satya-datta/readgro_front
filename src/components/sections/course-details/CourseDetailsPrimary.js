@@ -55,9 +55,9 @@ const CertificateModal = ({ isOpen, onClose, course, user, onRequestCertificate 
         },
         body: JSON.stringify({
           userId: user?.userId,
-          courseId: course?.id || course?.course?.id, // Fixed: handle both course structures
+          courseId: course?.id || course?.id, // Fixed: handle both course structures
           ...formData,
-          courseName: course?.name || course?.course?.name, // Fixed: handle both course structures
+          courseName: course?.name || course?.name, // Fixed: handle both course structures
         }),
       });
 
@@ -104,7 +104,7 @@ const CertificateModal = ({ isOpen, onClose, course, user, onRequestCertificate 
                 <FiAward className="w-6 h-6 text-blue-600" />
               </div>
               <div>
-                <h4 className="font-medium text-gray-900">{course?.name || course?.course?.name}</h4> {/* Fixed: handle both course structures */}
+                <h4 className="font-medium text-gray-900">{course?.name || course?.name}</h4> {/* Fixed: handle both course structures */}
                 <p className="text-sm text-gray-600">Certificate of Completion</p>
               </div>
             </div>
@@ -313,6 +313,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
         }
         
         setCourse(data.course);
+        console.log(data.course);
       } catch (error) {
         console.error('Failed to load course:', error);
         setError(error instanceof Error ? error.message : 'Failed to load course details');
@@ -556,7 +557,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                     <h3 className="text-xl font-bold text-gray-900 mb-4">About This Course</h3>
                     <div className="prose max-w-none text-gray-600">
                       <p className="mb-4">
-                        {course?.course?.description || 'This comprehensive course is designed to take you from beginner to advanced level. You will learn the latest industry practices and gain hands-on experience through real-world projects.'}
+                        {course?.description || 'This comprehensive course is designed to take you from beginner to advanced level. You will learn the latest industry practices and gain hands-on experience through real-world projects.'}
                       </p>
                       <h4 className="text-lg font-semibold text-gray-900 mt-6 mb-3">What You'll Learn</h4>
                       <div className="grid md:grid-cols-2 gap-4 mb-6">
@@ -581,10 +582,10 @@ const CourseDetailsPrimary = ({ id, type }) => {
                   <div>
                     <div className="flex flex-col md:flex-row gap-6">
                       <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-3xl font-bold text-gray-600">
-                        {course?.course?.instructor?.charAt(0) || 'I'}
+                        {course?.instructor?.charAt(0) || 'I'}
                       </div>
                       <div>
-                        <h3 className="text-2xl font-bold text-gray-900">{course?.course?.instructor || 'Instructor Name'}</h3>
+                        <h3 className="text-2xl font-bold text-gray-900">{course?.instructor || 'Instructor Name'}</h3>
                         <p className="text-blue-600 font-medium">Senior Instructor</p>
                         <p className="text-gray-600 mt-2">
                           With over 10 years of experience in the industry, our instructor brings real-world knowledge and expertise to help you succeed in your learning journey.
@@ -623,7 +624,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Duration</p>
-                      <p className="font-medium">{course?.course?.duration || '10+ hours'}</p>
+                      <p className="font-medium">{course?.duration || '10+ hours'}</p>
                     </div>
                   </div>
                   
@@ -633,7 +634,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Last Updated</p>
-                      <p className="font-medium">{new Date(course?.course?.created_time || new Date()).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                      <p className="font-medium">{new Date(course?.created_time || new Date()).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                     </div>
                   </div>
                   
@@ -654,11 +655,11 @@ const CourseDetailsPrimary = ({ id, type }) => {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Original Price:</span>
-                    <span className="text-gray-900 font-medium line-through">₹{course?.course?.course_price || '9,999'}</span>
+                    <span className="text-gray-900 font-medium line-through">₹{course?.course_price || '9,999'}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Discounted Price:</span>
-                    <span className="text-2xl font-bold text-green-600">₹{course?.course?.discount_price || '6,999'}</span>
+                    <span className="text-2xl font-bold text-green-600">₹{course?.discount_price || '6,999'}</span>
                   </div>
                   <div className="pt-2">
                     <button
