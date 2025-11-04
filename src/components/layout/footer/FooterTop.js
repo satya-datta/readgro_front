@@ -30,7 +30,7 @@ const FooterTop = () => {
         }`}
       >
         <FooterTopLeft />
-        <div data-aos="fade-up">
+        <div>
           <form
             onSubmit={handleSubmit}
             className="max-w-form-xl md:max-w-form-md lg:max-w-form-lg xl:max-w-form-xl 2xl:max-w-form-2xl bg-deepgray ml-auto rounded relative"

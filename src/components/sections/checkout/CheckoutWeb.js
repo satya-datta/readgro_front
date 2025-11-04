@@ -476,8 +476,8 @@ const CheckoutWeb = ({ coursename }) => {
             {courseDetails?.course?.image && (
               <div className="mt-5">
                 <img
-                  src={courseDetails?.image}
-                  alt={courseDetails?.name || "Course"}
+                  src={courseDetails?.course?.image}
+                  alt={courseDetails?.course?.name || "Course"}
                   className="w-full h-[400px] object-cover rounded-md border"
                 />
               </div>

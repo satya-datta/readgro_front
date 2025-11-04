@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 const CurriculumContent = ({ id }) => {
   const [topics, setTopics] = useState([]);
-  const [expandedTopic, setExpandedTopic] = useState(null);
+  // Removed expandedTopic state as we're removing dropdown functionality
   const [currentVideo, setCurrentVideo] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -53,15 +53,11 @@ const CurriculumContent = ({ id }) => {
     }
   };
 
-  const toggleTopic = (index) => {
-    setExpandedTopic(expandedTopic === index ? null : index);
-  };
 
-  const playVideo = (videoUrl, title, index) => {
+  const playVideo = (videoUrl, title) => {
     const embedUrl = getEmbedUrl(videoUrl);
     if (embedUrl) {
       setCurrentVideo({ url: embedUrl, title });
-      setExpandedTopic(index);
       // Smooth scroll to video player
       document.getElementById('video-player')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
@@ -120,26 +116,14 @@ const CurriculumContent = ({ id }) => {
           <h2 className="text-2xl font-bold text-gray-800">Course Content</h2>
         </div>
 
-        {/* Topics Accordion */}
+        {/* Topics List */}
         <div className="divide-y divide-gray-200">
           {topics.map((topic, index) => (
             <div key={index} className="group">
-              <button
-                onClick={() => toggleTopic(index)}
-                className="w-full px-6 py-4 text-left hover:bg-gray-50 transition-colors duration-200 flex items-center justify-between"
-                aria-expanded={expandedTopic === index}
-              >
+              <div className="w-full px-6 py-4 text-left hover:bg-gray-50 transition-colors duration-200 flex items-center justify-between">
                 <div className="flex items-center">
                   <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center mr-3">
-                    {expandedTopic === index ? (
-                      <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    ) : (
-                      <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    )}
+                    <span className="text-gray-500 font-medium">{index + 1}</span>
                   </div>
                   <div className="text-left">
                     <h3 className="font-medium text-gray-900">{topic.topic_name}</h3>
@@ -148,48 +132,22 @@ const CurriculumContent = ({ id }) => {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      playVideo(topic.video_url, topic.topic_name, index);
-                    }}
-                    className="ml-4 p-2 text-gray-500 hover:text-blue-600 rounded-full hover:bg-blue-50 transition-colors"
-                    title="Play video"
-                  >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                    </svg>
-                  </button>
-                </div>
-              </button>
-              
-              {expandedTopic === index && (
-                <div className="px-6 pb-4 pt-2 bg-gray-50">
-                  <div className="flex items-center justify-between py-3 px-4 bg-white rounded-lg border border-gray-200">
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 flex-shrink-0 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-blue-600 font-medium">{index + 1}</span>
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-medium text-gray-900">{topic.topic_name}</h4>
-                        <p className="text-xs text-gray-500">
-                          {topic.video_url ? 'Video' : 'Reading'}
-                        </p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => playVideo(topic.video_url, topic.topic_name, index)}
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md flex items-center transition-colors"
-                    >
-                      <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                      </svg>
-                      {currentVideo?.title === topic.topic_name ? 'Now Playing' : 'Play'}
-                    </button>
-                  </div>
+                <button
+                  onClick={() => playVideo(topic.video_url, topic.topic_name, index)}
+                  className={`px-4 py-2 text-sm font-medium rounded-md flex items-center transition-colors ${
+                    currentVideo?.title === topic.topic_name 
+                      ? 'bg-blue-600 text-white' 
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                  </svg>
+                  {currentVideo?.title === topic.topic_name ? 'Now Playing' : 'Play'}
+                </button>
+              </div>
                   {index === topics.length - 1 && (
-                    <div className="mt-4 pl-2">
+                    <div className="mt-4 px-6">
                       <button
                         onClick={() => router.push(`/user/generate-certificate/${id}`)}
                         className="w-1/2 py-2 px-4 bg-green hover:bg-green-700 text-white font-medium rounded-lg shadow-md transition-colors flex items-center justify-center space-x-2 text-sm"
@@ -201,11 +159,8 @@ const CurriculumContent = ({ id }) => {
                       </button>
                     </div>
                   )}
-                </div>
-              )}
             </div>
           ))}
-          
         </div>
       </div>
     </div>

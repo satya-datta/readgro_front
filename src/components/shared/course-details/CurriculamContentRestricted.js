@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 const CurriculumContentRestricted = ({ id, hasPurchased, onCompleteCourse }) => {
   const [topics, setTopics] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const [showLockedPopup, setShowLockedPopup] = useState(false);
+  // Removed showLockedPopup state as we'll redirect directly
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [packageNames, setPackageNames] = useState([]);
   const [completedTopics, setCompletedTopics] = useState([]);
@@ -67,7 +67,8 @@ const CurriculumContentRestricted = ({ id, hasPurchased, onCompleteCourse }) => 
     const isLocked = !hasPurchased && index !== 0;
 
     if (isLocked) {
-      setShowLockedPopup(true);
+      // Redirect to checkout page when a locked topic is clicked
+    
       return;
     }
 
@@ -151,47 +152,6 @@ const CurriculumContentRestricted = ({ id, hasPurchased, onCompleteCourse }) => 
                 className="absolute top-0 left-0 w-full h-full"
               ></iframe>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Locked Content Popup */}
-      {showLockedPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-40">
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center relative w-96">
-            <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-              onClick={() => setShowLockedPopup(false)}
-            >
-              ✖
-            </button>
-
-            <h2 className="text-xl font-bold mb-4">BUY COURSE</h2>
-            <p className="text-md mb-2 text-gray-600">
-              This course is available in:
-            </p>
-
-            <ul className="list-disc text-left pl-6 mb-4 text-gray-800">
-              {packageNames.length > 0 ? (
-                packageNames.map((pkg, index) => (
-                  <li key={index} className="text-lg font-medium">
-                    {pkg}
-                  </li>
-                ))
-              ) : (
-                <li className="text-gray-500">No packages available</li>
-              )}
-            </ul>
-
-            <button
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 w-full"
-              onClick={() => {
-                setShowLockedPopup(false);
-                router.push("/packages");
-              }}
-            >
-              View Plans
-            </button>
           </div>
         </div>
       )}

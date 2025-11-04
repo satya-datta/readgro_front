@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/contexts/UserContext";
 import CurriculumContentRestricted from "@/components/shared/course-details/CurriculamContentRestricted";
-import { FiClock, FiAward, FiUser, FiCalendar, FiCheckCircle, FiPlay, FiBookOpen, FiBarChart2 } from 'react-icons/fi';
+import { FiClock, FiAward, FiUser, FiCalendar, FiCheckCircle, FiPlay, FiBookOpen, FiBarChart2, FiShoppingCart } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 //hiiii
 
@@ -199,9 +199,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
   const { user } = useUserContext();
   const [course, setCourse] = useState({});
   const [loading, setLoading] = useState(true);
-  const [enrollmentLoading, setEnrollmentLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isEnrolled, setIsEnrolled] = useState(false);
   const [showCertificateModal, setShowCertificateModal] = useState(false);
   const [certificateUrl, setCertificateUrl] = useState(null);
   const [activeTab, setActiveTab] = useState('curriculum');
@@ -217,9 +215,9 @@ const CourseDetailsPrimary = ({ id, type }) => {
       } else {
         throw new Error('Invalid certificate data received');
       }
-    } catch (err) {
-      console.error('Certificate generation error:', err);
-      setError('Failed to generate certificate. Please try again.');
+    } catch (error) {
+      console.error('Certificate generation error:', error);
+      setError(error instanceof Error ? error.message : 'Failed to generate certificate. Please try again.');
     }
   };
 
@@ -317,7 +315,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
         setCourse(data.course);
       } catch (error) {
         console.error('Failed to load course:', error);
-        setError(error.message || 'Failed to load course details');
+        setError(error instanceof Error ? error.message : 'Failed to load course details');
       } finally {
         setLoading(false);
       }
@@ -326,72 +324,49 @@ const CourseDetailsPrimary = ({ id, type }) => {
     fetchCourse();
   }, [id]);
 
-  // Check enrollment for logged-in users: get user's package -> get mapped courses -> check contains this course id
-  useEffect(() => {
-    const checkEnrollment = async () => {
-      if (!user?.userId || !course?.id) return;
-      
-      setEnrollmentLoading(true);
-      try {
-        const [userRes, mappingsRes] = await Promise.all([
-          fetch(`https://readgro-backend-new.onrender.com/getuser_details/${user.userId}`),
-          fetch(`https://readgro-backend-new.onrender.com/getcoursemappings/${user.packageId || 'default'}`)
-        ]);
-
-        if (!userRes.ok) {
-          throw new Error('Failed to fetch user details');
-        }
-
-        const userData = await userRes.json();
-        const packageId = userData?.user?.packageId;
-        
-        if (!packageId) {
-          setIsEnrolled(false);
-          return;
-        }
-
-        if (!mappingsRes.ok) {
-          throw new Error('Failed to fetch course mappings');
-        }
-
-        const mappings = await mappingsRes.json();
-        
-        if (Array.isArray(mappings)) {
-          const courseIds = mappings.map((c) => Number(c.course_id));
-          setIsEnrolled(courseIds.includes(Number(course.id)));
-        }
-      } catch (error) {
-        console.error('Enrollment check failed:', error);
-        setError('Failed to verify course enrollment');
-      } finally {
-        setEnrollmentLoading(false);
-      }
-    };
-    checkEnrollment();
-  }, [user?.userId, course?.id]); // Fixed: Changed course?.course?.id to course?.id
 
   const isUserLoggedIn = Boolean(user?.userId);
 
-  const handleButtonClick = () => {
-    if (enrollmentLoading) return;
+  const handleButtonClick = async () => {
+    // Reset any previous errors
+    setError(null);
     
-    const courseName = course?.name || 'this course';
-    const courseId = course?.id;
-    
-    if (!isUserLoggedIn) {
-      router.push(`/login?redirect=/course/${id}&message=Please login to enroll in ${encodeURIComponent(courseName)}`);
-      return;
-    }
-    
-    if (!courseId) {
-      setError('Course information is not available');
-      return;
-    }
-    
-    if (isEnrolled) {
-      router.push(`/user/user-enrolled-courses/${courseId}`);
-    } else {
-      router.push(`/checkout?course=${encodeURIComponent(courseName)}`);
+    try {
+      const courseName = course?.name || 'this course';
+      const courseId = course?.id;
+      
+      if (!courseId) {
+        throw new Error('Course information is not available');
+      }
+      
+      // If user is logged in, redirect to dashboard
+      if (isUserLoggedIn) {
+        try {
+          await router.push(`/user/user-enrolled-courses/${courseId}`);
+        } catch (e) {
+          console.error('Navigation error:', e);
+          setError('Failed to navigate to dashboard. Please try again.');
+        }
+        return;
+      }
+      
+      // In all other cases, redirect to checkout
+      const checkoutUrl = `/checkout?course=${encodeURIComponent(courseName)}`;
+      try {
+        await router.push(checkoutUrl);
+      } catch (e) {
+        console.error('Navigation error:', e);
+        setError('Failed to navigate to checkout. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error in handleButtonClick:', error);
+      let errorMessage = 'An unexpected error occurred';
+      if (error && typeof error === 'object') {
+        errorMessage = error.message || JSON.stringify(error);
+      } else if (error) {
+        errorMessage = String(error);
+      }
+      setError(errorMessage);
     }
   };
 
@@ -404,14 +379,33 @@ const CourseDetailsPrimary = ({ id, type }) => {
   }
   
   if (error) {
+    // Safely convert error to string, with a fallback
+    let errorMessage = 'An unknown error occurred';
+    try {
+      if (error && typeof error === 'object') {
+        errorMessage = error.message || 'An error occurred';
+      } else if (error) {
+        errorMessage = String(error);
+      }
+    } catch (e) {
+      console.error('Error processing error message:', e);
+      errorMessage = 'An unknown error occurred';
+    }
+    
     return (
       <div className="text-center py-20">
         <h3 className="text-2xl font-semibold text-gray-800">
           Error Loading Course
         </h3>
-        <p className="text-gray-600 mt-2">
-          {error}
-        </p>
+        <div className="text-red-500 text-center p-4">
+          {errorMessage}
+        </div>
+        <button 
+          onClick={() => window.location.reload()}
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+        >
+          Reload Page
+        </button>
       </div>
     );
   }
@@ -485,25 +479,23 @@ const CourseDetailsPrimary = ({ id, type }) => {
             <div className="flex flex-wrap justify-center gap-4">
               <button
                 onClick={handleButtonClick}
-                disabled={enrollmentLoading}
-                className={`px-8 py-4 bg-white text-blue-700 font-semibold rounded-lg shadow-lg hover:bg-gray-100 transition-colors flex items-center gap-2 ${enrollmentLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
-                aria-busy={enrollmentLoading}
+                className="px-8 py-4 bg-white text-blue-700 font-semibold rounded-lg shadow-lg hover:bg-gray-100 transition-colors flex items-center gap-2"
                 aria-live="polite"
               >
-                {enrollmentLoading ? (
+                {isUserLoggedIn && user?.courses?.some(c => c.courseId === course?.id) ? (
                   <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-blue-700"></div>
-                    {isEnrolled ? 'Checking...' : 'Loading...'}
+                    <FiPlay className="text-lg" />
+                    Start Learning
                   </>
                 ) : (
                   <>
-                    {isEnrolled ? 'Continue Learning' : 'Enroll Now'}
-                    <FiPlay className="w-5 h-5" />
+                    <FiShoppingCart className="text-lg" />
+                    Enroll Now
                   </>
                 )}
               </button>
               
-              {isEnrolled && (
+              {isUserLoggedIn && user?.courses?.some(c => c.courseId === course?.id) && (
                 <button
                   onClick={() => setShowCertificateModal(true)}
                   className="px-6 py-4 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors flex items-center gap-2"
@@ -673,11 +665,11 @@ const CourseDetailsPrimary = ({ id, type }) => {
                       onClick={handleButtonClick}
                       className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-md transition-colors flex items-center justify-center gap-2"
                     >
-                      {isEnrolled ? 'Continue Learning' : 'Enroll Now'}
+                      {isUserLoggedIn ? 'Go to Dashboard' : 'Enroll Now'}
                       <FiPlay className="w-4 h-4" />
                     </button>
                     
-                    {isEnrolled && (
+                    {isUserLoggedIn && user?.courses?.some(c => c.courseId === course?.id) && (
                       <button
                         onClick={() => setShowCertificateModal(true)}
                         className="w-full mt-3 py-3 px-6 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
