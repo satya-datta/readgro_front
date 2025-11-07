@@ -64,7 +64,7 @@ const CurriculumContentRestricted = ({ id, hasPurchased, onCompleteCourse }) => 
   };
 
   const handleVideoClick = (index, youtubeLink) => {
-    const isLocked = !hasPurchased && index !== 0;
+    const isLocked = !hasPurchased;
 
     if (isLocked) {
       // Redirect to checkout page when a locked topic is clicked
@@ -96,7 +96,7 @@ const CurriculumContentRestricted = ({ id, hasPurchased, onCompleteCourse }) => 
     <div>
       <ul className="divide-y border rounded-lg">
         {topics.map((topic, index) => {
-          const isLocked = !hasPurchased && index !== 0;
+          const isLocked = !hasPurchased;
 
           return (
             <li

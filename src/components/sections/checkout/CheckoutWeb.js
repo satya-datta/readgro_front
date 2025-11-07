@@ -62,7 +62,8 @@ const CheckoutWeb = ({ coursename }) => {
         .then((data) => {
           console.log("Course data:", data);
           setCourseDetails(data);
-          setDiscountedPrice(data?.discount_price || data?.course_price);
+          setDiscountedPrice(data?.course.discount_price || data?.course.course_price);
+         // console.log(data?.course.discount_price);
         })
         .catch((err) => {
           console.error("Error fetching course:", err);
@@ -73,7 +74,7 @@ const CheckoutWeb = ({ coursename }) => {
               .then(data => {
                 console.log("Course data (by ID):", data);
                 setCourseDetails(data);
-                setDiscountedPrice(data?.discount_price || data?.course_price);
+                setDiscountedPrice(data?.course.discount_price || data?.course.course_price);
               })
               .catch(err => console.error("Error fetching course by ID:", err));
           }
@@ -146,6 +147,7 @@ const CheckoutWeb = ({ coursename }) => {
 
   const handleNext = async () => {
     console.log("Processing checkout...");
+    console.log(courseDetails.course.id);
     console.log(userId);
     if (!validateForm()) return;
 
@@ -192,7 +194,8 @@ const CheckoutWeb = ({ coursename }) => {
       }
 
       console.log("Payment successful. Registering user...");
-
+      console.log(courseDetails?.course.id);
+       console.log(formData);
       // Step 3: Register the User
       const registerResponse = await fetch(
         "https://readgro-backend-new.onrender.com/create-user",
@@ -202,12 +205,13 @@ const CheckoutWeb = ({ coursename }) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             ...formData,
-            course_id: courseDetails?.id,
+            course_id: courseDetails?.course.id,
           }),
         }
       );
-
+    
       const registerResult = await registerResponse.json();
+       console.log(registerResult.message);
       if (registerResult.success) {
         router.push("/user/user-enrolled-courses");
       } else {
