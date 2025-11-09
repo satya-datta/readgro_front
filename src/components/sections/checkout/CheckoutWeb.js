@@ -53,6 +53,13 @@ const CheckoutWeb = ({ coursename }) => {
     script.async = true;
     document.body.appendChild(script);
   }, []);
+
+  // Validate referral code when component mounts with a referral code and courseDetails is available
+  useEffect(() => {
+    if (formData.referralCode && courseDetails) {
+      validateReferralCode(formData.referralCode);
+    }
+  }, [courseDetails, formData.referralCode]);
   // Fetch course details when available
   useEffect(() => {
     if (coursename) {

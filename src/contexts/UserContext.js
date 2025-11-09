@@ -30,15 +30,24 @@ const UserContextProvider = ({ children }) => {
     const urlParams = new URLSearchParams(window.location.search);
     const referralCode = urlParams.get("referralcode");
     const packageType = urlParams.get("package");
+    const courseName = urlParams.get("course");
 
     if (referralCode) {
-      // Store referral code and package name in cookies with 2-hour expiry (7200 seconds)
-      Cookies.set("referralCode", referralCode, { expires: 10 / (24 * 60) }); // 10 minutes
+      // Store referral code in cookies with 10-minute expiry
+      Cookies.set("referralCode", referralCode, { expires: 10 / (24 * 60) });
+      
+      // Handle package type if provided
       if (packageType) {
-        Cookies.set("packageName", packageType, { expires: 10 / (24 * 60) }); // 10 minutes
+        Cookies.set("packageName", packageType, { expires: 10 / (24 * 60) });
         router.push(`/checkout?referralcode=${referralCode}&package=${packageType}`);
-      } else {
-        router.push("/packages");
+      } 
+      // Handle course name if provided
+      else if (courseName) {
+        router.push(`/checkout?referralcode=${referralCode}&course=${encodeURIComponent(courseName)}`);
+      }
+      // No package or course specified, just go to home with referral code
+      else {
+        router.push(`/?referralcode=${referralCode}`);
       }
       return; // Don't proceed with auth validation if we're redirecting
     }

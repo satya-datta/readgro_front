@@ -45,7 +45,7 @@ const UserAffiliateForm = () => {
       console.error("Error fetching referral code:", error);
     }
   };
-
+  
   const loadCourses = async () => {
     try {
       const res = await fetch("https://readgro-backend-new.onrender.com/getallcourses");

@@ -10,7 +10,6 @@ const FooterNavItems = ({ list, idx }) => {
           ? "sm:col-start-1 md:col-start-7  lg:col-start-5 lg:col-span-2"
           : "sm:col-start-7 md:col-start-1  lg:col-start-7 lg:col-span-3 pl-0 2xl:pl-60px"
       }  sm:col-span-6`}
-      data-aos="fade-up"
     >
       <FooterHeading>{heading}</FooterHeading>
       <ul className="flex flex-col gap-y-3">
