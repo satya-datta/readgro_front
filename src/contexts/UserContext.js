@@ -13,6 +13,20 @@ const UserContextProvider = ({ children }) => {
   const router = useRouter(); // Initialize router
 
   useEffect(() => {
+    // Only run on client-side
+    if (typeof window === 'undefined') return;
+
+    const currentPath = window.location.pathname;
+    const isUserRoute = currentPath.startsWith('/user');
+
+    // If on an admin route, don't interfere with admin context
+    if (currentPath.startsWith('/admin/Gnaneswar')) return;
+
+    // Clear admin context when in user section
+    if (window.localStorage.getItem('adminToken')) {
+      window.localStorage.removeItem('adminToken');
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const referralCode = urlParams.get("referralcode");
     const packageType = urlParams.get("package");
@@ -22,49 +36,49 @@ const UserContextProvider = ({ children }) => {
       Cookies.set("referralCode", referralCode, { expires: 10 / (24 * 60) }); // 10 minutes
       if (packageType) {
         Cookies.set("packageName", packageType, { expires: 10 / (24 * 60) }); // 10 minutes
-        router.push(
-          `/checkout?referralcode=${referralCode}&package=${packageType}`
-        );
+        router.push(`/checkout?referralcode=${referralCode}&package=${packageType}`);
       } else {
         router.push("/packages");
       }
+      return; // Don't proceed with auth validation if we're redirecting
     }
 
-    validateAuthToken()
-      .then(({ isValid, user }) => {
-        if (isValid) {
-          const avatarUrl = user?.avatar ? `${user.avatar}` : null;
+    // Only validate auth token if we're on a user route or the root
+    if (isUserRoute || currentPath === '/') {
+      validateAuthToken()
+        .then(({ isValid, user }) => {
+          if (isValid) {
+            const avatarUrl = user?.avatar ? `${user.avatar}` : null;
 
-          const enrichedUser = {
-            ...user,
-            avatarUrl,
-          };
+            const enrichedUser = {
+              ...user,
+              avatarUrl,
+            };
 
-          setUser(enrichedUser);
-          setIsUserAuthenticated(true);
-          console.log(enrichedUser);
+            setUser(enrichedUser);
+            setIsUserAuthenticated(true);
 
-          if (window.location.pathname === "/user/login") {
-            router.push("/user/user-enrolled-courses");
+            if (currentPath === "/user/login" || currentPath === "/user") {
+              router.push("/user/user-enrolled-courses");
+            }
+          } else {
+            setIsUserAuthenticated(false);
+            setUser(null);
+
+            if (isUserRoute && currentPath !== "/user/login") {
+              router.push("/user/login");
+            }
           }
-          if (window.location.pathname === "/user") {
-            router.push("/user/user-enrolled-courses");
-          }
-        } else {
+        })
+        .catch((error) => {
+          console.error('User auth error:', error);
           setIsUserAuthenticated(false);
           setUser(null);
-
-          if (window.location.pathname.startsWith("/user")) {
+          if (isUserRoute && currentPath !== "/user/login") {
             router.push("/user/login");
           }
-        }
-      })
-
-      .catch(() => {
-        setIsUserAuthenticated(false);
-        setUser(null);
-        router.push("/user/login");
-      });
+        });
+    }
   }, [router]);
 
   return (

@@ -45,6 +45,7 @@ const CheckoutWeb = ({ coursename }) => {
   const [courseDetails, setCourseDetails] = useState(null);
   const [isReferralValid, setIsReferralValid] = useState(null);
   const [discountedPrice, setDiscountedPrice] = useState(null);
+  const [originalPrice, setOriginalPrice] = useState(null);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -62,8 +63,8 @@ const CheckoutWeb = ({ coursename }) => {
         .then((data) => {
           console.log("Course data:", data);
           setCourseDetails(data);
-          setDiscountedPrice(data?.course.discount_price || data?.course.course_price);
-         // console.log(data?.course.discount_price);
+          setOriginalPrice(data?.course.course_price);
+          setDiscountedPrice(data?.course.course_price); // Set default to original price
         })
         .catch((err) => {
           console.error("Error fetching course:", err);
@@ -83,7 +84,8 @@ const CheckoutWeb = ({ coursename }) => {
   }, [coursename]);
   const validateReferralCode = async (referralCode) => {
     if (!referralCode) {
-      setDiscountedPrice(courseDetails?.course_price); // Reset to original price if referral is empty
+      setDiscountedPrice(originalPrice); // Reset to original price if referral is empty
+      setIsReferralValid(null);
       return;
     }
 
@@ -100,15 +102,16 @@ const CheckoutWeb = ({ coursename }) => {
       const data = await response.json();
 
       if (data.valid) {
-        setDiscountedPrice(
-          courseDetails?.course?.discount_price || courseDetails?.course_price
-        ); // Apply discount
+        setDiscountedPrice(courseDetails?.course?.discount_price || originalPrice);
+        setIsReferralValid(true);
       } else {
-        setDiscountedPrice(courseDetails?.course?.course_price); // No discount
+        setDiscountedPrice(originalPrice);
+        setIsReferralValid(false);
       }
     } catch (error) {
       console.error("Error validating referral code:", error);
-      setDiscountedPrice(courseDetails?.course?.course_price); // Default price on error
+      setDiscountedPrice(originalPrice); // Default price on error
+      setIsReferralValid(false);
     
     }
   };

@@ -35,7 +35,7 @@ const UserAffiliateForm = () => {
         if (data.user.generatedReferralCode) {
           setReferralCode(data.user.generatedReferralCode);
           setReferralLink(
-            `https://read-gro-fm6j.vercel.app/?referralcode=${data.user.generatedReferralCode}`
+            `https://readgro.com/?referralcode=${data.user.generatedReferralCode}`
           );
         }
       } else {
