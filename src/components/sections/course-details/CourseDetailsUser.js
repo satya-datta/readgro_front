@@ -45,46 +45,45 @@ const CourseDetailsUser = ({ id, type }) => {
 
   return (
     <section className="bg-gray-50 min-h-screen">
-      <div className="container mx-auto max-w-7xl px-4 py-8  space-y-4">
+      <div className="container mx-auto max-w-7xl px-2 sm:px-4 py-4 sm:py-8 space-y-4">
         {/* Course Name Header */}
-        <div className="bg-white rounded-xl shadow-sm p-6 md:p-8">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 md:p-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
             {course.course.name || "The Complete AI Guide"}
           </h1>
-         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-          <div className="p-6 md:p-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Course Content</h2>
-            <CurriculumContent id={course.course.id} />
+          
+          {/* Course Content Section */}
+          <div className="mt-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Course Content</h2>
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+              <CurriculumContent id={course.course.id} />
+            </div>
           </div>
         </div>
-        </div>
-
-        {/* Curriculum Content */}
-       
 
         {/* Course Description */}
-        <div className="bg-white rounded-xl shadow-sm p-6 md:p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">About This Course</h2>
-          <p className="text-gray-600 leading-relaxed">
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 md:p-8">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">About This Course</h2>
+          <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
             {course.course.description ||
               "50+ Generative AI Tools to 10x Business, Productivity, Creativity | ChatGPT, Artificial Intelligence, Prompt Engineering"}
           </p>
         </div>
 
         {/* Instructor Section */}
-        <div className="bg-white rounded-xl shadow-sm p-6 md:p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Instructor</h2>
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
-              <span className="text-2xl text-gray-700 font-medium">
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 md:p-8 mb-8">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Instructor</h2>
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+              <span className="text-xl sm:text-2xl text-gray-700 font-medium">
                 {course.course.instructor?.charAt(0) || "S"}
               </span>
             </div>
             <div>
-              <p className="text-lg font-medium text-gray-800">
+              <p className="text-base sm:text-lg font-medium text-gray-800">
                 {course.course.instructor || "Satya Nanda"}
               </p>
-              <p className="text-gray-600">Course Instructor</p>
+              <p className="text-sm sm:text-base text-gray-600">Course Instructor</p>
             </div>
           </div>
         </div>
