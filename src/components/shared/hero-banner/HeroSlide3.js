@@ -31,7 +31,7 @@ const HeroSlide3 = ({ slide, idx }) => {
 
             {/* Buttons side by side */}
             <div className="flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-4">
-              <ButtonPrimary path="/packages/1">
+              <ButtonPrimary path="/courses">
                 Start With ReadGro
               </ButtonPrimary>
               <ButtonPrimary color="secondary" path="/about">
