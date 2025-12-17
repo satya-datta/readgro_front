@@ -46,7 +46,7 @@ const CertificateModal = ({ isOpen, onClose, course, user, onRequestCertificate 
     e.preventDefault();
     setIsSubmitting(true);
     setError('');
-    
+
     try {
       const response = await fetch('https://readgro-backend-new.onrender.com/certificateRequest', {
         method: 'POST',
@@ -62,7 +62,7 @@ const CertificateModal = ({ isOpen, onClose, course, user, onRequestCertificate 
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || 'Failed to request certificate');
       }
@@ -79,7 +79,7 @@ const CertificateModal = ({ isOpen, onClose, course, user, onRequestCertificate 
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <motion.div 
+      <motion.div
         ref={modalRef}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -88,7 +88,7 @@ const CertificateModal = ({ isOpen, onClose, course, user, onRequestCertificate 
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-2xl font-bold text-gray-900">Request Certificate</h3>
-            <button 
+            <button
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600 transition-colors"
             >
@@ -97,7 +97,7 @@ const CertificateModal = ({ isOpen, onClose, course, user, onRequestCertificate 
               </svg>
             </button>
           </div>
-          
+
           <div className="mb-6">
             <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg mb-4">
               <div className="p-2 bg-blue-100 rounded-lg">
@@ -224,25 +224,25 @@ const CourseDetailsPrimary = ({ id, type }) => {
   // Make sidebar sticky with fixed position on right side
   useEffect(() => {
     if (!stickyRef.current) return;
-    
+
     const updatePosition = () => {
       const heroSection = document.querySelector('.course-hero-section');
       const mainContent = document.querySelector('.course-main-content');
       const footer = document.querySelector('footer');
-      
+
       if (!heroSection || !mainContent || !footer) return;
-      
+
       const scrollPosition = window.scrollY + window.innerHeight;
       const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
       const mainBottom = mainContent.offsetTop + mainContent.offsetHeight;
       const footerTop = footer.offsetTop;
-      
+
       if (scrollPosition >= heroBottom) {
         const card = stickyRef.current;
         const cardHeight = card.offsetHeight;
         const maxBottom = footerTop - 40; // 40px above footer
         const cardBottom = scrollPosition + cardHeight;
-        
+
         if (cardBottom >= maxBottom) {
           card.style.position = 'absolute';
           card.style.bottom = `${window.innerHeight - (scrollPosition - maxBottom + cardHeight)}px`;
@@ -252,23 +252,23 @@ const CourseDetailsPrimary = ({ id, type }) => {
           card.style.top = '100px'; // 100px from top of viewport
           card.style.bottom = 'auto';
         }
-        
+
         // Calculate right position based on container
         const container = card.parentElement;
         const containerRect = container.getBoundingClientRect();
         const rightPosition = window.innerWidth - (containerRect.left + containerRect.width);
         card.style.right = `${Math.max(20, rightPosition)}px`; // At least 20px from right
-        
+
         card.style.width = `${containerRect.width}px`;
         card.style.transition = 'all 0.2s ease-out';
       } else {
         stickyRef.current.style.position = 'static';
       }
     };
-    
+
     // Initial position
     updatePosition();
-    
+
     // Add event listeners
     let ticking = false;
     const onScroll = () => {
@@ -280,10 +280,10 @@ const CourseDetailsPrimary = ({ id, type }) => {
         ticking = true;
       }
     };
-    
+
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', updatePosition);
-    
+
     // Cleanup
     return () => {
       window.removeEventListener('scroll', onScroll);
@@ -301,17 +301,17 @@ const CourseDetailsPrimary = ({ id, type }) => {
     const fetchCourse = async () => {
       try {
         const response = await fetch(`https://readgro-backend-new.onrender.com/getspecific_course/${id}`);
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const data = await response.json();
-        
+
         if (!data || !data.course) {
           throw new Error('No course data received');
         }
-        
+
         setCourse(data.course);
         console.log(data.course);
       } catch (error) {
@@ -331,15 +331,15 @@ const CourseDetailsPrimary = ({ id, type }) => {
   const handleButtonClick = async () => {
     // Reset any previous errors
     setError(null);
-    
+
     try {
       const courseName = course?.name || 'this course';
       const courseId = course?.id;
-      
+
       if (!courseId) {
         throw new Error('Course information is not available');
       }
-      
+
       // If user is logged in, redirect to dashboard
       if (isUserLoggedIn) {
         try {
@@ -350,7 +350,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
         }
         return;
       }
-      
+
       // In all other cases, redirect to checkout
       const checkoutUrl = `/checkout?course=${encodeURIComponent(courseName)}`;
       try {
@@ -378,7 +378,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
       </div>
     );
   }
-  
+
   if (error) {
     // Safely convert error to string, with a fallback
     let errorMessage = 'An unknown error occurred';
@@ -392,7 +392,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
       console.error('Error processing error message:', e);
       errorMessage = 'An unknown error occurred';
     }
-    
+
     return (
       <div className="text-center py-20">
         <h3 className="text-2xl font-semibold text-gray-800">
@@ -401,7 +401,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
         <div className="text-red-500 text-center p-4">
           {errorMessage}
         </div>
-        <button 
+        <button
           onClick={() => window.location.reload()}
           className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
         >
@@ -428,7 +428,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
     <section className="bg-gray-50 min-h-screen">
       {/* Certificate Modal */}
       {showCertificateModal && (
-        <CertificateModal 
+        <CertificateModal
           isOpen={showCertificateModal}
           onClose={() => setShowCertificateModal(false)}
           course={course} // Pass the course object directly
@@ -441,27 +441,27 @@ const CourseDetailsPrimary = ({ id, type }) => {
       {/* Hero Section */}
       <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white course-hero-section">
         <div className="absolute inset-0 overflow-hidden">
-          <img 
-            src={course?.image || '/images/course-bg.jpg'} 
+          <img
+            src={course?.image || '/images/course-bg.jpg'}
             alt="Course background"
             className="w-full h-full object-cover opacity-20"
           />
         </div>
-        
+
         <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-1.5 rounded-full mb-6">
               <span className="text-sm font-medium">{course?.category || 'Professional Course'}</span>
             </div>
-            
+
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
               {course?.name || 'Master Course'}
             </h1>
-            
+
             <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
               {course?.description || 'Transform your career with our comprehensive course designed by industry experts.'}
             </p>
-            
+
             <div className="flex flex-wrap justify-center gap-4 mb-8">
               <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-lg">
                 <FiUser className="w-5 h-5" />
@@ -476,7 +476,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                 <span>{course?.level || 'All Levels'}</span>
               </div>
             </div>
-            
+
             <div className="flex flex-wrap justify-center gap-4">
               <button
                 onClick={handleButtonClick}
@@ -491,11 +491,17 @@ const CourseDetailsPrimary = ({ id, type }) => {
                 ) : (
                   <>
                     <FiShoppingCart className="text-lg" />
-                    Enroll Now
+                    <div className="flex flex-col items-start ml-1 text-left">
+                      <span>Enroll Now</span>
+                      <div className="text-xs flex items-center gap-2 font-normal">
+                        {/* <span className="line-through text-red-500 opacity-70">₹{course?.course_price}</span> */}
+                        <span className="font-bold">₹{course?.discount_price}</span>
+                      </div>
+                    </div>
                   </>
                 )}
               </button>
-              
+
               {isUserLoggedIn && user?.courses?.some(c => c.courseId === course?.id) && (
                 <button
                   onClick={() => setShowCertificateModal(true)}
@@ -543,7 +549,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                   </button>
                 </nav>
               </div>
-              
+
               <div className="p-6">
                 {activeTab === 'curriculum' && (
                   <div>
@@ -551,7 +557,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                     <CurriculumContentRestricted id={id} onCompleteCourse={() => setShowCertificateModal(true)} />
                   </div>
                 )}
-                
+
                 {activeTab === 'overview' && (
                   <div>
                     <h3 className="text-xl font-bold text-gray-900 mb-4">About This Course</h3>
@@ -577,7 +583,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                     </div>
                   </div>
                 )}
-                
+
                 {activeTab === 'instructor' && (
                   <div>
                     <div className="flex flex-col md:flex-row gap-6">
@@ -607,16 +613,16 @@ const CourseDetailsPrimary = ({ id, type }) => {
               </div>
             </div>
           </div>
-          
+
           {/* Sidebar - Right Side */}
           <div className="lg:w-1/3">
-            <div 
+            <div
               ref={stickyRef}
               className="bg-white rounded-xl shadow-lg overflow-hidden z-10"
             >
               <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50">
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Course Details</h3>
-                
+
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
@@ -627,7 +633,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                       <p className="font-medium">{course?.duration || '10+ hours'}</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start gap-3">
                     <div className="p-2 bg-purple-50 rounded-lg text-purple-600">
                       <FiCalendar className="w-5 h-5" />
@@ -637,7 +643,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                       <p className="font-medium">{new Date(course?.created_time || new Date()).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start gap-3">
                     <div className="p-2 bg-green-50 rounded-lg text-green-600">
                       <FiAward className="w-5 h-5" />
@@ -649,7 +655,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="p-6 bg-gray-50">
                 <h4 className="font-semibold text-gray-900 mb-3 text-lg">Price</h4>
                 <div className="space-y-3">
@@ -669,7 +675,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                       {isUserLoggedIn ? 'Go to Dashboard' : 'Enroll Now'}
                       <FiPlay className="w-4 h-4" />
                     </button>
-                    
+
                     {isUserLoggedIn && user?.courses?.some(c => c.courseId === course?.id) && (
                       <button
                         onClick={() => setShowCertificateModal(true)}
@@ -681,7 +687,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                     )}
                   </div>
                 </div>
-                
+
                 <div className="mt-6 pt-6 border-t border-gray-100">
                   <h4 className="font-semibold text-gray-900 mb-3">What's Included</h4>
                   <ul className="space-y-3">
@@ -709,11 +715,11 @@ const CourseDetailsPrimary = ({ id, type }) => {
         </div>
 
         {/* Instructor Section */}
-      
-       
+
+
       </div>
     </section>
-        
+
   );
 
 };

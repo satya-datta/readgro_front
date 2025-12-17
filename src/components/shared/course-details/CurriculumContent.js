@@ -56,7 +56,7 @@ const CurriculumContent = ({ id }) => {
     if (!url) return '';
     try {
       const urlObj = new URL(url);
-      
+
       // Handle ScreenPal URLs
       if (urlObj.hostname.includes('screenpal.com')) {
         // Extract the video ID from the path
@@ -67,15 +67,15 @@ const CurriculumContent = ({ id }) => {
           return `https://go.screenpal.com/player/${videoId}?width=100%&height=100%&ff=1&title=0&controls=0`;
         }
       }
-      
+
       // Handle YouTube URLs
       if (urlObj.hostname.includes('youtube.com') || urlObj.hostname === 'youtu.be') {
-        const videoId = urlObj.hostname === 'youtu.be' 
+        const videoId = urlObj.hostname === 'youtu.be'
           ? urlObj.pathname.substring(1)
           : urlObj.searchParams.get('v');
         return `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autohide=1&showinfo=0`;
       }
-      
+
       return url;
     } catch (error) {
       console.error("Error processing video URL:", url, error);
@@ -149,7 +149,7 @@ const CurriculumContent = ({ id }) => {
       {isFullscreen && currentVideo && (
         <div className="fixed inset-0 bg-black z-50">
           <div className="absolute top-4 right-4 z-50">
-            <button 
+            <button
               onClick={closeFullscreen}
               className="bg-black/70 text-white p-2 rounded-full hover:bg-black/90 transition-colors"
               aria-label="Close fullscreen"
@@ -223,11 +223,10 @@ const CurriculumContent = ({ id }) => {
                 </div>
                 <button
                   onClick={() => playVideo(topic.video_url, topic.topic_name, index)}
-                  className={`px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-medium rounded-md flex items-center transition-colors whitespace-nowrap ${
-                    currentVideo?.title === topic.topic_name 
-                      ? 'bg-blue-600 text-white' 
+                  className={`px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-medium rounded-md flex items-center transition-colors whitespace-nowrap ${currentVideo?.title === topic.topic_name
+                      ? 'bg-blue-600 text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
+                    }`}
                 >
                   <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
@@ -235,9 +234,9 @@ const CurriculumContent = ({ id }) => {
                   {currentVideo?.title === topic.topic_name ? 'Playing' : 'Play'}
                 </button>
               </div>
-                  {index === topics.length - 1 && (
-                    <div className="mt-4 px-3 sm:px-6 pb-4">
-                      <button
+              {index === topics.length - 1 && (
+                <div className="mt-4 px-3 sm:px-6 pb-4">
+                  {/* <button
                         onClick={() => router.push(`/user/generate-certificate/${id}`)}
                         className="w-full sm:w-1/2 py-2 px-4 bg-green hover:bg-green text-white font-medium rounded-lg shadow-md transition-colors flex items-center justify-center space-x-2 text-sm"
                       >
@@ -245,9 +244,9 @@ const CurriculumContent = ({ id }) => {
                           <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                         <span>Generate Certificate</span>
-                      </button>
-                    </div>
-                  )}
+                      </button> */}
+                </div>
+              )}
             </div>
           ))}
         </div>
