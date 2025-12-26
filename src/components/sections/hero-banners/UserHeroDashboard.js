@@ -15,19 +15,21 @@ const UserHeroNavbar = () => {
   const { user } = useUserContext();
   const [loadedImageUrl, setLoadedImageUrl] = useState(null);
 
+  const [showImagePopup, setShowImagePopup] = useState(false);
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       if (!user?.userId) return;
 
       try {
         const response = await fetch(
-          `https://readgro-backend-new.onrender.com/getuser_details/${user.userId}`
+          `http://localhost:5000/getuser_details/${user.userId}`
         );
         const data = await response.json();
-        if (data?.user?.avatar) {
+        if (data?.avatar) {
           const img = new window.Image();
-          img.src = data.user.avatar;
-          img.onload = () => setLoadedImageUrl(data.user.avatar);
+          img.src = data.avatar;
+          img.onload = () => setLoadedImageUrl(data.avatar);
           img.onerror = () => setLoadedImageUrl(null);
         } else {
           setLoadedImageUrl(null);
@@ -44,7 +46,7 @@ const UserHeroNavbar = () => {
   const handleLogout = async () => {
     try {
       const response = await fetch(
-        "https://readgro-backend-new.onrender.com/userlogout",
+        "http://localhost:5000/userlogout",
         {
           method: "POST",
           credentials: "include",
@@ -60,9 +62,11 @@ const UserHeroNavbar = () => {
     }
   };
 
+  const currentAvatar = loadedImageUrl || dashboardImage2.src;
+
   return (
     <>
-      <nav className="sticky top-0 z-50 w-full bg-white shadow-md px-4 md:px-8 py-3 flex justify-between items-center">
+      <nav className="sticky top-0 z-40 w-full bg-white shadow-md px-4 md:px-8 py-3 flex justify-between items-center">
         {/* Left: Hamburger (Mobile) */}
         <button
           className="lg:hidden text-green-600"
@@ -71,14 +75,17 @@ const UserHeroNavbar = () => {
           <Menu size={24} />
         </button>
         <Image
-          prioriy="fasle"
+          priority={true}
           src={logo1}
           alt="logo"
           className="w-40 h-15 pl-6 py-2"
         />
         {/* Right: Profile & Logout */}
         <div className="flex items-center gap-4">
-          <div className="relative w-10 h-10">
+          <div
+            className="relative w-10 h-10 cursor-pointer hover:opacity-80 transition"
+            onClick={() => setShowImagePopup(true)}
+          >
             {loadedImageUrl ? (
               <img
                 src={loadedImageUrl}
@@ -104,11 +111,48 @@ const UserHeroNavbar = () => {
         </div>
       </nav>
 
+      {/* Profile Image Popup */}
+      {showImagePopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-[60] p-4">
+          <div className="bg-white p-2 rounded-2xl shadow-2xl max-w-sm w-full relative flex flex-col items-center">
+            <button
+              onClick={() => setShowImagePopup(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-black transition"
+            >
+              <X size={24} />
+            </button>
+            <div className="mt-8 mb-6 overflow-hidden rounded-xl border-4 border-green-500 shadow-lg">
+              <img
+                src={currentAvatar}
+                alt="Profile Large"
+                className="w-64 h-64 object-cover"
+              />
+            </div>
+            <h3 className="text-xl font-bold text-gray-800 mb-1">{user?.name || "User"}</h3>
+            <p className="text-sm text-gray-500 mb-6">{user?.email || ""}</p>
+
+            <div className="flex flex-col w-full gap-2 px-4 pb-4">
+              <a
+                href="/user/user-profile"
+                className="w-full py-3 bg-green text-white rounded-xl font-semibold hover:bg-green-600 transition text-center shadow-md"
+              >
+                Edit Profile
+              </a>
+              <button
+                onClick={() => setShowImagePopup(false)}
+                className="w-full py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Mobile Sidebar Drawer */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform transition-transform z-40 lg:hidden ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform transition-transform z-50 lg:hidden ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         <div className="flex justify-between items-center px-4 py-3 border-b">
           <span className="font-bold">Menu</span>
@@ -122,14 +166,14 @@ const UserHeroNavbar = () => {
       {/* Overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-30 z-30 lg:hidden"
+          className="fixed inset-0 bg-black bg-opacity-30 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         ></div>
       )}
 
       {/* Logout Confirmation */}
       {showLogoutPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[60]">
           <div className="bg-white p-6 rounded-xl shadow-xl w-80 text-center">
             <h3 className="text-lg font-bold mb-4">Confirm Logout</h3>
             <p className="mb-4 text-gray-600">

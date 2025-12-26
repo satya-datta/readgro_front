@@ -17,7 +17,7 @@ const AdminAddPackageMain = () => {
     const fetchCourses = async () => {
       try {
         const response = await fetch(
-          "https://readgro-backend-new.onrender.com/getallcourses"
+          "http://localhost:5000/getallcourses"
         );
         const data = await response.json();
         if (response.ok) {
@@ -87,7 +87,7 @@ const AdminAddPackageMain = () => {
       });
 
       const response = await fetch(
-        "https://readgro-backend-new.onrender.com/create-package_withcourses",
+        "http://localhost:5000/create-package_withcourses",
         {
           method: "POST",
           body: formData,
@@ -214,11 +214,10 @@ const AdminAddPackageMain = () => {
                   <td>{course.instructor}</td>
                   <td>
                     <button
-                      className={`px-3 py-1 rounded ${
-                        selectedCourses.includes(course.course_id)
+                      className={`px-3 py-1 rounded ${selectedCourses.includes(course.course_id)
                           ? "bg-red-500"
                           : "bg-green"
-                      } text-white`}
+                        } text-white`}
                       onClick={() => toggleCourseSelection(course.course_id)}
                       type="button"
                     >

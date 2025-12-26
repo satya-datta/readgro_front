@@ -48,7 +48,7 @@ const CertificateModal = ({ isOpen, onClose, course, user, onRequestCertificate 
     setError('');
 
     try {
-      const response = await fetch('https://readgro-backend-new.onrender.com/certificateRequest', {
+      const response = await fetch('http://localhost:5000/certificateRequest', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -300,7 +300,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
 
     const fetchCourse = async () => {
       try {
-        const response = await fetch(`https://readgro-backend-new.onrender.com/getspecific_course/${id}`);
+        const response = await fetch(`http://localhost:5000/getspecific_course/${id}`);
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

@@ -9,7 +9,7 @@ const CourseDetailsUser = ({ id, type }) => {
 
   useEffect(() => {
     if (id) {
-      fetch(`https://readgro-backend-new.onrender.com/getspecific_course/${id}`)
+      fetch(`http://localhost:5000/getspecific_course/${id}`)
         .then((res) => res.json())
         .then((data) => {
           if (data) {
@@ -51,7 +51,7 @@ const CourseDetailsUser = ({ id, type }) => {
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
             {course.course.name || "The Complete AI Guide"}
           </h1>
-          
+
           {/* Course Content Section */}
           <div className="mt-6">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Course Content</h2>

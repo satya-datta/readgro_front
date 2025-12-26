@@ -6,7 +6,7 @@ export const FetchWallet = async (userId) => {
 
   try {
     const response = await fetch(
-      `https://readgro-backend-new.onrender.com/getwallet/${userId}`,
+      `http://localhost:5000/getwallet/${userId}`,
       {
         method: "GET",
         credentials: "include",
@@ -33,7 +33,7 @@ export const deductWalletBalance = async (userId, amount, setShowPopup) => {
 
   try {
     const response = await fetch(
-      `https://readgro-backend-new.onrender.com/deductwallet`,
+      `http://localhost:5000/deductwallet`,
       {
         method: "POST",
         credentials: "include",

@@ -21,10 +21,10 @@ const CheckoutWeb = ({ coursename }) => {
   const { cartProducts: products } = useCartContext();
   const [formData, setFormData] = useState(() => {
     // Check for referral code in both cookies and localStorage
-    const refCode = Cookies.get("referralCode") || 
-                  (typeof window !== 'undefined' ? localStorage.getItem('referralCode') : '') || 
-                  '';
-    
+    const refCode = Cookies.get("referralCode") ||
+      (typeof window !== 'undefined' ? localStorage.getItem('referralCode') : '') ||
+      '';
+
     // Clear the referral code from localStorage after reading it
     if (typeof window !== 'undefined' && localStorage.getItem('referralCode')) {
       localStorage.removeItem('referralCode');
@@ -64,7 +64,7 @@ const CheckoutWeb = ({ coursename }) => {
   useEffect(() => {
     if (coursename) {
       fetch(
-        `https://readgro-backend-new.onrender.com/getcoursebyname/${encodeURIComponent(coursename)}`
+        `http://localhost:5000/getcoursebyname/${encodeURIComponent(coursename)}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -77,7 +77,7 @@ const CheckoutWeb = ({ coursename }) => {
           console.error("Error fetching course:", err);
           // If there's an error, try to fetch the course by ID
           if (coursename.match(/^[0-9a-fA-F]{24}$/)) { // Check if it's a MongoDB ID
-            fetch(`https://readgro-backend-new.onrender.com/getcourse/${coursename}`)
+            fetch(`http://localhost:5000/getcourse/${coursename}`)
               .then(res => res.json())
               .then(data => {
                 console.log("Course data (by ID):", data);
@@ -98,7 +98,7 @@ const CheckoutWeb = ({ coursename }) => {
 
     try {
       const response = await fetch(
-        "https://readgro-backend-new.onrender.com/validate_refferalcode",
+        "http://localhost:5000/validate_refferalcode",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -119,7 +119,7 @@ const CheckoutWeb = ({ coursename }) => {
       console.error("Error validating referral code:", error);
       setDiscountedPrice(originalPrice); // Default price on error
       setIsReferralValid(false);
-    
+
     }
   };
 
@@ -164,7 +164,7 @@ const CheckoutWeb = ({ coursename }) => {
     try {
       // Step 1: Validate user
       const validateResponse = await fetch(
-        "https://readgro-backend-new.onrender.com/validate_user",
+        "http://localhost:5000/validate_user",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -193,7 +193,7 @@ const CheckoutWeb = ({ coursename }) => {
 
       // Step 2: Process Payment
       const priceToPay = discountedPrice || courseDetails?.course_price;
-      
+
       const paymentSuccess = await handleRazorpayPayment(priceToPay);
       if (!paymentSuccess) {
         setErrors((prevErrors) => ({
@@ -205,10 +205,10 @@ const CheckoutWeb = ({ coursename }) => {
 
       console.log("Payment successful. Registering user...");
       console.log(courseDetails?.course.id);
-       console.log(formData);
+      console.log(formData);
       // Step 3: Register the User
       const registerResponse = await fetch(
-        "https://readgro-backend-new.onrender.com/create-user",
+        "http://localhost:5000/create-user",
         {
           method: "POST",
           credentials: "include",
@@ -219,9 +219,9 @@ const CheckoutWeb = ({ coursename }) => {
           }),
         }
       );
-    
+
       const registerResult = await registerResponse.json();
-       console.log(registerResult.message);
+      console.log(registerResult.message);
       if (registerResult.success) {
         router.push("/user/user-enrolled-courses");
       } else {

@@ -20,7 +20,7 @@ const LoginForm = () => {
     setError(null);
     try {
       const response = await fetch(
-        "https://readgro-backend-new.onrender.com/authadmin",
+        "http://localhost:5000/authadmin",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -52,7 +52,7 @@ const LoginForm = () => {
     setError(null);
     try {
       const response = await fetch(
-        "https://readgro-backend-new.onrender.com/sendadmin-otp",
+        "http://localhost:5000/sendadmin-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -79,7 +79,7 @@ const LoginForm = () => {
     setError(null);
     try {
       const response = await fetch(
-        "https://readgro-backend-new.onrender.com/verifyadmin-otp",
+        "http://localhost:5000/verifyadmin-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

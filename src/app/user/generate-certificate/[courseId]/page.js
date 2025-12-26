@@ -19,7 +19,7 @@ const GenerateCertificate = () => {
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
-        const response = await axios.get(`https://readgro-backend-new.onrender.com/getspecific_course/${courseId}`);
+        const response = await axios.get(`http://localhost:5000/getspecific_course/${courseId}`);
         if (response.success) {
           setCourseName(response.course.name);
         }
@@ -44,10 +44,10 @@ const GenerateCertificate = () => {
     try {
       setLoading(true);
       setError('');
-      
+
       const endDate = calculateEndDate(startDate, months);
-      
-      const response = await axios.post('https://readgro-backend-new.onrender.com/certificateRequest', {
+
+      const response = await axios.post('http://localhost:5000/certificateRequest', {
         userId: user.userId,
         courseId,
         courseName,
@@ -141,9 +141,8 @@ const GenerateCertificate = () => {
               <button
                 onClick={handleGenerateCertificate}
                 disabled={loading}
-                className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
-                  loading ? 'opacity-70 cursor-not-allowed' : ''
-                }`}
+                className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${loading ? 'opacity-70 cursor-not-allowed' : ''
+                  }`}
               >
                 {loading ? 'Generating...' : 'Generate Certificate'}
               </button>

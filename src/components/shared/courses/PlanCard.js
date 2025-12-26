@@ -31,7 +31,7 @@ const PlanCard = ({ package_id, userCurrentPackage }) => {
   }, [showPopup]);
 
   useEffect(() => {
-    fetch(`https://readgro-backend-new.onrender.com/getpackage/${package_id}`)
+    fetch(`http://localhost:5000/getpackage/${package_id}`)
       .then((res) => res.json())
       .then((data) => setPackageData(data))
       .catch((error) =>
@@ -41,7 +41,7 @@ const PlanCard = ({ package_id, userCurrentPackage }) => {
 
   useEffect(() => {
     fetch(
-      `https://readgro-backend-new.onrender.com/getcoursemappings/${package_id}`
+      `http://localhost:5000/getcoursemappings/${package_id}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -49,7 +49,7 @@ const PlanCard = ({ package_id, userCurrentPackage }) => {
           const courseIds = data.map((course) => course.course_id);
           setTotalCourses(data.length);
 
-          fetch("https://readgro-backend-new.onrender.com/getcoursedetails", {
+          fetch("http://localhost:5000/getcoursedetails", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ course_ids: courseIds }),
@@ -72,7 +72,7 @@ const PlanCard = ({ package_id, userCurrentPackage }) => {
 
   useEffect(() => {
     if (package_id > 1) {
-      fetch(`https://readgro-backend-new.onrender.com/getpackage/${package_id - 1}`)
+      fetch(`http://localhost:5000/getpackage/${package_id - 1}`)
         .then((res) => res.json())
         .then((data) => setPreviousPackageName(data.package_name))
         .catch((error) =>
@@ -173,7 +173,7 @@ const PlanCard = ({ package_id, userCurrentPackage }) => {
   const upgradePackage = async (userId, newPackageId) => {
     try {
       const response = await fetch(
-        `https://readgro-backend-new.onrender.com/upgrade_package`,
+        `http://localhost:5000/upgrade_package`,
         {
           method: "PUT",
           credentials: "include",

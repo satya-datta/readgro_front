@@ -24,7 +24,7 @@ const ProfileDetails = () => {
   const fetchUserData = async (userId) => {
     try {
       const response = await fetch(
-        `https://readgro-backend-new.onrender.com/getuser_details/${userId}`,
+        `http://localhost:5000/getuser_details/${userId}`,
         {
           method: "GET",
           credentials: "include",
@@ -34,20 +34,20 @@ const ProfileDetails = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setUserData(data.user);
+        setUserData(data);
         setEditableData({
-          name: data.user.name,
-          email: data.user.email,
-          phone: data.user.phone,
-          address: data.user.Address,
-          pincode: data.user.Pincode,
-          avatar: data.user.avatar,
-          reffercode: data.user.referralCode, // Assuming reffercode comes here
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          address: data.address,
+          pincode: data.pincode,
+          avatar: data.avatar,
+          reffercode: data.reffercode, // Assuming reffercode comes here
         });
-        console.log(data.user);
+        console.log(data);
 
-        if (data.user.referralCode) {
-          fetchSponsorDetails(data.user.referralCode);
+        if (data.reffercode) {
+          fetchSponsorDetails(data.reffercode);
         }
       } else {
         console.error("Failed to fetch user data");
@@ -61,7 +61,7 @@ const ProfileDetails = () => {
   const fetchSponsorDetails = async (reffercode) => {
     try {
       const response = await fetch(
-        `https://readgro-backend-new.onrender.com/getsponseordetails/${reffercode}`,
+        `http://localhost:5000/getsponseordetails/${reffercode}`,
         {
           method: "GET",
           credentials: "include",
@@ -72,8 +72,8 @@ const ProfileDetails = () => {
         const data = await response.json();
         console.log("hi", data);
         setSponsorDetails({
-          sponsor_name: data.name || "",
-          sponsor_mobile: data.phone || "",
+          sponsor_name: data.sponsorname || "",
+          sponsor_mobile: data.sponsorphone || "",
         });
         console.log(sponsorDetails);
       } else {
@@ -137,7 +137,7 @@ const ProfileDetails = () => {
 
     try {
       const response = await fetch(
-        `https://readgro-backend-new.onrender.com/update_user/${user?.userId}`,
+        `http://localhost:5000/update_user/${user?.userId}`,
         {
           method: "PUT",
           body: formData,
@@ -203,9 +203,8 @@ const ProfileDetails = () => {
                   value={editableData[field] || ""}
                   onChange={handleInputChange}
                   disabled={!isEditing}
-                  className={`w-full p-2 border rounded ${
-                    isEditing ? "bg-white" : "bg-gray-100"
-                  } ${errors[field] ? "border-red-500" : ""}`}
+                  className={`w-full p-2 border rounded ${isEditing ? "bg-white" : "bg-gray-100"
+                    } ${errors[field] ? "border-red-500" : ""}`}
                 />
                 {errors[field] && (
                   <p className="text-red-500 text-sm">{errors[field]}</p>
@@ -220,11 +219,10 @@ const ProfileDetails = () => {
             <div className="flex items-center flex-wrap gap-4">
               <label
                 htmlFor="avatarUpload"
-                className={`cursor-pointer px-4 py-2 text-sm rounded ${
-                  isEditing
-                    ? "bg-blue-600 text-white hover:bg-blue-700"
-                    : "bg-gray-300 text-gray-600 cursor-not-allowed"
-                }`}
+                className={`cursor-pointer px-4 py-2 text-sm rounded ${isEditing
+                  ? "bg-blue-600 text-white hover:bg-blue-700"
+                  : "bg-gray-300 text-gray-600 cursor-not-allowed"
+                  }`}
               >
                 Choose File
               </label>

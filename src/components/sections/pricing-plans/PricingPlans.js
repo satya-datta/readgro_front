@@ -10,7 +10,7 @@ const PricingPlans = () => {
   const [loading, setLoading] = useState(true); // ✅ Loader state
 
   useEffect(() => {
-    fetch("https://readgro-backend-new.onrender.com/getallpackages")
+    fetch("http://localhost:5000/getallpackages")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -32,14 +32,14 @@ const PricingPlans = () => {
   const fetchCourseDetails = async (packageId) => {
     try {
       const res = await fetch(
-        `https://readgro-backend-new.onrender.com/getcoursemappings/${packageId}`
+        `http://localhost:5000/getcoursemappings/${packageId}`
       );
       const data = await res.json();
       const courseIds = data.map((course) => course.course_id);
 
       if (courseIds.length > 0) {
         const courseRes = await fetch(
-          "https://readgro-backend-new.onrender.com/getcoursedetails",
+          "http://localhost:5000/getcoursedetails",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

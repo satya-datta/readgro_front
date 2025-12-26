@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const baseUrl = "https://readgro.com";
-  const backendUrl = "https://readgro-backend-new.onrender.com";
+  const backendUrl = "http://localhost:5000";
 
   const staticPaths = ["", "about", "contact", "courses", "packages"];
 

@@ -13,7 +13,7 @@ const CurriculumContent = ({ id }) => {
   useEffect(() => {
     if (id) {
       setIsLoading(true);
-      fetch(`https://readgro-backend-new.onrender.com/gettopics/${id}`)
+      fetch(`http://localhost:5000/gettopics/${id}`)
         .then((res) => res.json())
         .then((data) => {
           if (Array.isArray(data.topics)) {
@@ -224,8 +224,8 @@ const CurriculumContent = ({ id }) => {
                 <button
                   onClick={() => playVideo(topic.video_url, topic.topic_name, index)}
                   className={`px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-medium rounded-md flex items-center transition-colors whitespace-nowrap ${currentVideo?.title === topic.topic_name
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                 >
                   <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">

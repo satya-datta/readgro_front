@@ -25,7 +25,7 @@ const UserKycForm = () => {
   const fetchUserBankData = async (userId) => {
     try {
       const response = await fetch(
-        `https://readgro-backend-new.onrender.com/getuser_bank_details/${userId}`,
+        `http://localhost:5000/getuser_bank_details/${userId}`,
         {
           method: "GET",
           credentials: "include",
@@ -101,8 +101,8 @@ const UserKycForm = () => {
     if (!validateForm()) return;
 
     const url = isNewUser
-      ? `https://readgro-backend-new.onrender.com/insert_bank_detials`
-      : `https://readgro-backend-new.onrender.com/updateuser_bank_details/${user?.userId}`;
+      ? `http://localhost:5000/insert_bank_detials`
+      : `http://localhost:5000/updateuser_bank_details/${user?.userId}`;
 
     const method = isNewUser ? "POST" : "PUT";
 
@@ -148,9 +148,8 @@ const UserKycForm = () => {
               name={name}
               value={editableData[name] || ""}
               onChange={handleInputChange}
-              className={`w-full p-2 border rounded mt-1 ${
-                errors[name] ? "border-red-500" : ""
-              }`}
+              className={`w-full p-2 border rounded mt-1 ${errors[name] ? "border-red-500" : ""
+                }`}
             />
             {errors[name] && (
               <p className="text-red-500 text-sm">{errors[name]}</p>

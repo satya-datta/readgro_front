@@ -23,7 +23,7 @@ const UserAffiliateForm = () => {
   const fetchReferralCode = async (userId) => {
     try {
       const response = await fetch(
-        `https://readgro-backend-new.onrender.com/getuser_details/${userId}`,
+        `http://localhost:5000/getuser_details/${userId}`,
         {
           method: "GET",
           credentials: "include",
@@ -45,10 +45,10 @@ const UserAffiliateForm = () => {
       console.error("Error fetching referral code:", error);
     }
   };
-  
+
   const loadCourses = async () => {
     try {
-      const res = await fetch("https://readgro-backend-new.onrender.com/getallcourses");
+      const res = await fetch("http://localhost:5000/getallcourses");
       const data = await res.json();
       console.log(data);
       if (Array.isArray(data?.courses)) setCourses(data.courses);
@@ -137,11 +137,10 @@ const UserAffiliateForm = () => {
           <button
             onClick={generateCourseLink}
             disabled={!selectedCourse}
-            className={`ml-2 px-4 py-2 text-sm font-medium rounded-md ${
-              selectedCourse
+            className={`ml-2 px-4 py-2 text-sm font-medium rounded-md ${selectedCourse
                 ? "bg-primaryColor text-white hover:bg-purple-700"
                 : "bg-gray-400 text-white cursor-not-allowed"
-            }`}
+              }`}
           >
             Generate Link
           </button>

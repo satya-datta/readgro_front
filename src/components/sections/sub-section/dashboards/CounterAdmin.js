@@ -20,7 +20,7 @@ const CounterAdmin = () => {
     const fetchDashboardData = async () => {
       try {
         const response = await axios.get(
-          "https://readgro-backend-new.onrender.com/getadmindashboard"
+          "http://localhost:5000/getadmindashboard"
         ); // Backend API
         setDashboardData(response.data.data);
       } catch (error) {

@@ -3,7 +3,7 @@ const validateAuthToken = async () => {
     // const token = req.cookies.get("UserauthToken");
     // console.log(token);
     const response = await fetch(
-      "https://readgro-backend-new.onrender.com/auth/uservalidate",
+      "http://localhost:5000/auth/uservalidate",
       {
         method: "GET",
         credentials: "include", // Ensures cookies are sent in the request

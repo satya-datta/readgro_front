@@ -23,12 +23,12 @@ const AdmineditCourseMain = ({ course_id }) => {
     const fetchCourseDetails = async () => {
       try {
         const courseResponse = await fetch(
-          `https://readgro-backend-new.onrender.com/getspecific_course/${course_id}`
+          `http://localhost:5000/getspecific_course/${course_id}`
         );
         const courseData = await courseResponse.json();
 
         const topicsResponse = await fetch(
-          `https://readgro-backend-new.onrender.com/gettopics/${course_id}`
+          `http://localhost:5000/gettopics/${course_id}`
         );
         const topicsData = await topicsResponse.json();
 
@@ -103,7 +103,7 @@ const AdmineditCourseMain = ({ course_id }) => {
     try {
       // Update course details with image
       await fetch(
-        `https://readgro-backend-new.onrender.com/updatecoursedetails/${course_id}`,
+        `http://localhost:5000/updatecoursedetails/${course_id}`,
         {
           method: "PUT",
           body: formData, // Send FormData directly
@@ -113,7 +113,7 @@ const AdmineditCourseMain = ({ course_id }) => {
       // Update existing topics
       for (const topic of topics) {
         await fetch(
-          `https://readgro-backend-new.onrender.com/updatetopic/${topic.topic_id}`,
+          `http://localhost:5000/updatetopic/${topic.topic_id}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -127,7 +127,7 @@ const AdmineditCourseMain = ({ course_id }) => {
 
       // Create new topics
       for (const topic of newTopics) {
-        await fetch("https://readgro-backend-new.onrender.com/create-topic", {
+        await fetch("http://localhost:5000/create-topic", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ...topic, course_id }),
@@ -137,7 +137,7 @@ const AdmineditCourseMain = ({ course_id }) => {
       // Delete removed topics
       for (const topicId of deletedTopics) {
         await fetch(
-          `https://readgro-backend-new.onrender.com/delete-topic/${topicId}`,
+          `http://localhost:5000/delete-topic/${topicId}`,
           {
             method: "DELETE",
           }
@@ -224,7 +224,7 @@ const AdmineditCourseMain = ({ course_id }) => {
             <label className="mb-3 block font-semibold">Course Price</label>
             <input
               type="number"
-              
+
               value={course_price}
               onChange={(e) => setCoursePrice(e.target.value)}
               className="w-full py-10px px-5 text-sm focus:outline-none"

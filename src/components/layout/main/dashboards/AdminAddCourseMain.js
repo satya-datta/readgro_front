@@ -54,7 +54,7 @@ const AdminAddCourseMain = () => {
     if (discount_price && isNaN(Number(discount_price))) {
       newErrors.discount_price = "Discount must be a number.";
     }
-    if (commission && (isNaN(Number(commission)) || Number(commission) < 0 )) {
+    if (commission && (isNaN(Number(commission)) || Number(commission) < 0)) {
       newErrors.commission = "Commission must be 0-100.";
     }
 
@@ -91,7 +91,7 @@ const AdminAddCourseMain = () => {
       }
 
       const courseResponse = await fetch(
-        "https://readgro-backend-new.onrender.com/create-course",
+        "http://localhost:5000/create-course",
         {
           method: "POST",
           body: formData,
@@ -115,7 +115,7 @@ const AdminAddCourseMain = () => {
         };
 
         const topicResponse = await fetch(
-          "https://readgro-backend-new.onrender.com/create-topic",
+          "http://localhost:5000/create-topic",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

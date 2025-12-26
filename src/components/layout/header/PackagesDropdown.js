@@ -5,7 +5,7 @@ import DropdownPrimary from "./DropdownPrimary";
 export const fetchPackages = async () => {
   try {
     const response = await fetch(
-      "https://readgro-backend-new.onrender.com/getallpackages"
+      "http://localhost:5000/getallpackages"
     );
     if (!response.ok) {
       throw new Error("Failed to fetch packages");
@@ -58,11 +58,10 @@ const PackagesDropdown = () => {
     <div className="relative w-full">
       <div
         className={`rounded-lg shadow-md p-4 w-full max-w-xs mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg 
-         ${
-           isMobile
-             ? "bg-white opacity-100 dark:bg-gray-700"
-             : "bg-white dark:bg-gray-800"
-         }
+         ${isMobile
+            ? "bg-white opacity-100 dark:bg-gray-700"
+            : "bg-white dark:bg-gray-800"
+          }
 `}
       >
         <DropdownPrimary items={items} />

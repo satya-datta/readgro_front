@@ -4,7 +4,7 @@ const CourseList = () => {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    fetch("https://readgro-backend-new.onrender.com/getallcourses") // Update with your API URL
+    fetch("http://localhost:5000/getallcourses") // Update with your API URL
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.courses)) {

@@ -9,7 +9,7 @@ const AdminGetPackages = () => {
     const fetchPackages = async () => {
       try {
         const response = await fetch(
-          "https://readgro-backend-new.onrender.com/getallpackages"
+          "http://localhost:5000/getallpackages"
         );
         const data = await response.json();
         console.log(data);

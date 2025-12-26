@@ -12,7 +12,7 @@ const HeroSlide2 = ({ slide, idx }) => {
     const fetchImages = async () => {
       try {
         const response = await fetch(
-          "https://readgro-backend-new.onrender.com/getwebsite_hero"
+          "http://localhost:5000/getwebsite_hero"
         );
         if (response.ok) {
           const data = await response.json();
@@ -55,8 +55,8 @@ const HeroSlide2 = ({ slide, idx }) => {
     return idx === 0
       ? "url('../assets/images/herobanner/university_1.jpg')"
       : idx === 1
-      ? "url('../assets/images/herobanner/university_2.jpg')"
-      : "url('../assets/images/herobanner/university_3.jpg')";
+        ? "url('../assets/images/herobanner/university_2.jpg')"
+        : "url('../assets/images/herobanner/university_3.jpg')";
   };
 
   if (loading) {
@@ -75,8 +75,8 @@ const HeroSlide2 = ({ slide, idx }) => {
             (idx === 0
               ? "/assets/images/herobanner/university_1.jpg"
               : idx === 1
-              ? "/assets/images/herobanner/university_2.jpg"
-              : "/assets/images/herobanner/university_3.jpg")
+                ? "/assets/images/herobanner/university_2.jpg"
+                : "/assets/images/herobanner/university_3.jpg")
           }
           alt="Hero"
           className="absolute top-0 left-0 w-full h-full object-cover"

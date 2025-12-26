@@ -14,7 +14,7 @@ const PackageDetailsPrimary = ({ type, id }) => {
   useEffect(() => {
     if (!id) return;
 
-    fetch(`https://readgro-backend-new.onrender.com/getpackage/${id}`)
+    fetch(`http://localhost:5000/getpackage/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data) {
@@ -133,9 +133,8 @@ const PackageDetailsPrimary = ({ type, id }) => {
 
             {/* Package Details Card */}
             <div
-              className={`${
-                type === 3 ? "lg:w-1/2" : "w-full"
-              } bg-white rounded-xl shadow-lg overflow-hidden`}
+              className={`${type === 3 ? "lg:w-1/2" : "w-full"
+                } bg-white rounded-xl shadow-lg overflow-hidden`}
             >
               <div className="p-6 md:p-8">
                 {/* Package Badge */}
@@ -186,8 +185,8 @@ const PackageDetailsPrimary = ({ type, id }) => {
                   {!isUserLoggedIn
                     ? "Buy Now"
                     : user?.package_id < packageDetails?.package_id
-                    ? "Upgrade to this Package"
-                    : "Explore Your Package"}
+                      ? "Upgrade to this Package"
+                      : "Explore Your Package"}
                 </button>
               </div>
             </div>

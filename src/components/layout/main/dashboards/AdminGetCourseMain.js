@@ -10,7 +10,7 @@ const AdminGetCourseMain = () => {
     const fetchCourses = async () => {
       try {
         const response = await fetch(
-          "https://readgro-backend-new.onrender.com/getallcourses"
+          "http://localhost:5000/getallcourses"
         ); // API endpoint for fetching courses
         const data = await response.json();
         if (response.ok) {
@@ -39,7 +39,7 @@ const AdminGetCourseMain = () => {
 
     try {
       const response = await fetch(
-        `https://readgro-backend-new.onrender.com/delete-course/${courseId}`,
+        `http://localhost:5000/delete-course/${courseId}`,
         { method: "DELETE" }
       );
       const data = await response.json();

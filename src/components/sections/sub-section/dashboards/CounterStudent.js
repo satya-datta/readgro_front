@@ -52,7 +52,7 @@ const CounterStudent = () => {
     last30DaysEarnings: 0,
     overallEarnings: 0,
   });
-  
+
   const [barChartData, setBarChartData] = useState({
     labels: ['Today', 'Last 7 Days', 'Last 30 Days', 'Total'],
     datasets: []
@@ -87,7 +87,7 @@ const CounterStudent = () => {
   const getYAxisConfig = (maxValue) => {
     const baseMax = 2000; // Base maximum value (2K)
     const step = 500;     // Step size (500)
-    
+
     if (maxValue <= baseMax) {
       // If max value is 2K or less, use 0-2K with 500 increments
       return {
@@ -108,7 +108,7 @@ const CounterStudent = () => {
       const scaleFactor = Math.ceil(maxValue / baseMax);
       const scaledMax = baseMax * scaleFactor;
       const scaledStep = step * scaleFactor;
-      
+
       return {
         min: 0,
         max: scaledMax,
@@ -167,11 +167,11 @@ const CounterStudent = () => {
       if (!user?.userId) return;
 
       try {
-        const earningsRes = await axios.get(`https://readgro-backend-new.onrender.com/earnings/${user.userId}`);
+        const earningsRes = await axios.get(`http://localhost:5000/earnings/${user.userId}`);
         const earningsData = earningsRes.data;
-        
+
         setEarnings(earningsData);
-        
+
         // Prepare bar chart data
         const barData = [
           earningsData.todayEarnings,
@@ -191,7 +191,7 @@ const CounterStudent = () => {
 
         // Get max value for scaling
         const maxEarnings = Math.max(...barData, 2000); // Ensure minimum range of 2000
-        
+
         setBarChartOptions(getChartOptions(maxEarnings));
         setLineChartOptions({
           ...getChartOptions(maxEarnings),
@@ -200,7 +200,7 @@ const CounterStudent = () => {
             point: { radius: 4, hoverRadius: 6, hoverBorderWidth: 2 }
           }
         });
-        
+
         setBarChartData({
           labels: ['Today', 'Last 7 Days', 'Last 30 Days', 'Total'],
           datasets: [{
@@ -216,7 +216,7 @@ const CounterStudent = () => {
 
         // Prepare line chart data (cumulative earnings)
         const lineLabels = ['Start', 'Current'];
-        
+
         // Only show start (0) and current total earnings
         const weeklyGrowth = [0, earningsData.overallEarnings];
 
@@ -227,7 +227,7 @@ const CounterStudent = () => {
             data: weeklyGrowth,
           }]
         });
-        
+
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching earnings:", error);
@@ -240,7 +240,7 @@ const CounterStudent = () => {
 
       try {
         const response = await fetch(
-          `https://readgro-backend-new.onrender.com/getuser_details/${user.userId}`
+          `http://localhost:5000/getuser_details/${user.userId}`
         );
         const data = await response.json();
         if (data?.user?.avatar) {
@@ -253,7 +253,7 @@ const CounterStudent = () => {
         // Fetch package details
         if (user?.package_id) {
           fetch(
-            `https://readgro-backend-new.onrender.com/getpackage/${user.package_id}`
+            `http://localhost:5000/getpackage/${user.package_id}`
           )
             .then((res) => res.json())
             .then((packageData) => {
@@ -314,7 +314,7 @@ const CounterStudent = () => {
       },
       tooltip: {
         callbacks: {
-          label: function(context) {
+          label: function (context) {
             return `₹${context.parsed.y}`;
           }
         }
@@ -324,7 +324,7 @@ const CounterStudent = () => {
       y: {
         beginAtZero: true,
         ticks: {
-          callback: function(value) {
+          callback: function (value) {
             return '₹' + value;
           }
         }
@@ -425,7 +425,7 @@ const CounterStudent = () => {
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Earnings Summary</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {counts.map((item, index) => (
-            <div 
+            <div
               key={index}
               className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border-l-4 border-indigo-500"
             >
@@ -437,8 +437,8 @@ const CounterStudent = () => {
                   </p>
                 </div>
                 <div className="p-3 rounded-full bg-indigo-100">
-                  <Image 
-                    src={item.image} 
+                  <Image
+                    src={item.image}
                     alt={item.name}
                     width={24}
                     height={24}

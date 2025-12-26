@@ -21,7 +21,7 @@ const RGWithdrawlRequestInner = () => {
 
     try {
       const response = await fetch(
-        `https://readgro-backend-new.onrender.com/getwithdrawlrequests/${user.userId}`,
+        `http://localhost:5000/getwithdrawlrequests/${user.userId}`,
         {
           method: "GET",
           credentials: "include",
@@ -50,7 +50,7 @@ const RGWithdrawlRequestInner = () => {
   const fetchUserBankData = async (userId) => {
     try {
       const response = await fetch(
-        `https://readgro-backend-new.onrender.com/getuser_bank_details/${userId}`,
+        `http://localhost:5000/getuser_bank_details/${userId}`,
         {
           method: "GET",
           credentials: "include",
@@ -91,7 +91,7 @@ const RGWithdrawlRequestInner = () => {
 
     try {
       const response = await fetch(
-        `https://readgro-backend-new.onrender.com/withdrawlrequests/${user.userId}`,
+        `http://localhost:5000/withdrawlrequests/${user.userId}`,
         {
           method: "POST",
           credentials: "include",
@@ -181,13 +181,12 @@ const RGWithdrawlRequestInner = () => {
                     </td>
                     <td className="px-5px py-10px md:px-5">
                       <span
-                        className={`${
-                          request.status === "approved"
+                        className={`${request.status === "approved"
                             ? "bg-primaryColor"
                             : request.status === "rejected"
-                            ? "bg-red-500"
-                            : "bg-secondaryColor"
-                        } h-22px inline-block px-7px leading-22px font-bold text-whiteColor rounded-md capitalize`}
+                              ? "bg-red-500"
+                              : "bg-secondaryColor"
+                          } h-22px inline-block px-7px leading-22px font-bold text-whiteColor rounded-md capitalize`}
                       >
                         {request.status}
                       </span>

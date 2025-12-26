@@ -14,7 +14,7 @@ const CurriculumContentRestricted = ({ id, hasPurchased, onCompleteCourse }) => 
 
   useEffect(() => {
     if (id) {
-      fetch(`https://readgro-backend-new.onrender.com/gettopics/${id}`)
+      fetch(`http://localhost:5000/gettopics/${id}`)
         .then((res) => res.json())
         .then((data) => {
           if (Array.isArray(data.topics)) {
@@ -27,7 +27,7 @@ const CurriculumContentRestricted = ({ id, hasPurchased, onCompleteCourse }) => 
           console.error(`Error fetching topics for course ${id}:`, error)
         );
 
-      fetch(`https://readgro-backend-new.onrender.com/getpackagebycourse/${id}`)
+      fetch(`http://localhost:5000/getpackagebycourse/${id}`)
         .then((res) => res.json())
         .then((data) => {
           if (Array.isArray(data.packages)) {
@@ -68,7 +68,7 @@ const CurriculumContentRestricted = ({ id, hasPurchased, onCompleteCourse }) => 
 
     if (isLocked) {
       // Redirect to checkout page when a locked topic is clicked
-    
+
       return;
     }
 
@@ -102,18 +102,16 @@ const CurriculumContentRestricted = ({ id, hasPurchased, onCompleteCourse }) => 
             <li
               key={index}
               onClick={() => handleVideoClick(index, topic.video_url)}
-              className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer ${
-                isLocked ? "opacity-70" : ""
-              }`}
+              className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer ${isLocked ? "opacity-70" : ""
+                }`}
             >
               <div className="flex items-center gap-3">
                 <div
                   className={`w-9 h-9 flex items-center justify-center border rounded-full 
-        ${
-          isLocked
-            ? "border-gray-300 text-gray-400"
-            : "border-blue-500 text-blue-600 bg-white"
-        }`}
+        ${isLocked
+                      ? "border-gray-300 text-gray-400"
+                      : "border-blue-500 text-blue-600 bg-white"
+                    }`}
                 >
                   <i className="icofont-play-alt-2 text-sm"></i>
                 </div>
