@@ -495,7 +495,7 @@ const CourseDetailsPrimary = ({ id, type }) => {
                       <span>Enroll Now</span>
                       <div className="text-xs flex items-center gap-2 font-normal">
                         {/* <span className="line-through text-red-500 opacity-70">₹{course?.course_price}</span> */}
-                        <span className="font-bold">₹{course?.discount_price}</span>
+                        <span className="font-bold">₹{course?.original_price}</span>
                       </div>
                     </div>
                   </>
